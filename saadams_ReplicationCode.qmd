@@ -1,0 +1,45 @@
+---
+title: "saadams_ReplicationCode"
+format: html
+editor: visual
+---
+
+You should start your replication report with a short description of the study and of the specific data and replication analyses you will be performing, to orient your reader. Outline (briefly) the goal of the original paper, the data set used, and the analyses conducted, then describe which you will replicate. You should also demonstrate how you read your datafile into R, and show a few lines of raw data in your output (e.g., using head()).
+
+I will be looking for you to clearly take your reader through all of the elements of data manipulation, analysis, and, where appropriate, visualization. You should provide as much coding detail, explanation, and output tables as necessary to compare your results to those published.
+
+Annotate your code well, and good luck!
+
+# Introduction
+
+# Study Description
+
+# Introduction to analyses we will reproduce
+
+You should also embed in your .Rmd file, near your own results, any images or figures from the original paper that you replicate so that I can see them together. These should be included as .png files in a folder called “img” within your repo. You can include code like the following to reference files in your “img” folder for inclusion in your document.
+
+# Step 1: Getting Started 
+
+## Setting Up Your Workspace
+
+## Loading Packages
+
+```{r}
+library(curl)
+library(tidyverse)
+```
+
+## Loading and Cleaning Data
+```{r}
+
+```
+
+----ANalyses
+
+
+# Step 2: Analyses
+
+## Descriptive Statistical test: 
+Note: not provided in text but Dr, Schmitt said it was fine because you would assume they did these
+
+## Inferential Statistical Test: 
