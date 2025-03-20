@@ -11,6 +11,7 @@ I will be looking for you to clearly take your reader through all of the element
 Annotate your code well, and good luck!
 
 # Introduction
+Note discrepancies in reported individuals and actual ones in raw data(even in text it is not right/doesn't add up)
 
 # Study Description
 
@@ -31,7 +32,13 @@ library(tidyverse)
 
 ## Loading and Cleaning Data
 ```{r}
+f_male <- curl("https://raw.githubusercontent.com/sadams32/saadams-AN588-Replication/refs/heads/main/Espeset2021_AnEntSoc_1.csv")
 
+d_male <- read.csv(f, header = TRUE, sep = ",", stringsAsFactors = FALSE)
+
+f_female <- curl("https://raw.githubusercontent.com/sadams32/saadams-AN588-Replication/refs/heads/main/Espeset2021_AnEntSoc_2.csv")
+
+d_female <- read.csv(f, header = TRUE, sep = ",", stringsAsFactors = FALSE)
 ```
 
 ----ANalyses
@@ -41,5 +48,10 @@ library(tidyverse)
 
 ## Descriptive Statistical test: 
 Note: not provided in text but Dr, Schmitt said it was fine because you would assume they did these
+
+I'm going to start with summary statistics by collection site
+
+Mean, sd, n in sample
+
 
 ## Inferential Statistical Test: 
