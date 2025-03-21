@@ -28,21 +28,37 @@ You should also embed in your .Rmd file, near your own results, any images or fi
 ```{r}
 library(curl)
 library(tidyverse)
+library(dplyr)
 ```
 
 ## Loading and Cleaning Data
+ In summary, midpoint (R50, associated with brightness) was the average percent reflectance between 300–375 and 450–550 nm; LR50, associated with hue, was calculated as the associated wavelength to R50; and BR50, associated with saturation, was calculated by finding the slope of the line tangent to the point at R50. 
+
+### Males
 ```{r}
-f_male <- curl("https://raw.githubusercontent.com/sadams32/saadams-AN588-Replication/refs/heads/main/Espeset2021_AnEntSoc_1.csv")
+f_male <- curl("https://raw.githubusercontent.com/sadams32/saadams-AN588-Replication/refs/heads/main/Espeset2021_AnEntSoc_1.csv") # male butterfly data (R50, L50, BR50, testes weight (mg), wing length (cm))
+d_male <- read.csv(f_male, header = TRUE, sep = ",", stringsAsFactors = FALSE) # read in data
 
-d_male <- read.csv(f, header = TRUE, sep = ",", stringsAsFactors = FALSE)
+colnames(d_male) <- c("Site", "R50", "L50", "BR50", "Testes_Weight_mg", "Wing_Length_cm")
 
-f_female <- curl("https://raw.githubusercontent.com/sadams32/saadams-AN588-Replication/refs/heads/main/Espeset2021_AnEntSoc_2.csv")
+d_male <- na.omit(d_male) # omit "NA" entries
 
-d_female <- read.csv(f, header = TRUE, sep = ",", stringsAsFactors = FALSE)
+head(d_male) # preview
+```
+
+### Females
+```{r}
+f_female <- curl("https://raw.githubusercontent.com/sadams32/saadams-AN588-Replication/refs/heads/main/Espeset2021_AnEntSoc_2.csv") # female butterfly data (spermatophore counts)
+d_female <- read.csv(f_female, header = TRUE, sep = ",", stringsAsFactors = FALSE) # read in data
+
+colnames(d_female) <- c("Site", "Sperm_Count")
+
+d_female <- na.omit(d_female) # omit "NA" entries
+
+head(d_female) # preview
 ```
 
 ----ANalyses
-
 
 # Step 2: Analyses
 
@@ -53,5 +69,30 @@ I'm going to start with summary statistics by collection site
 
 Mean, sd, n in sample
 
+### Male Summary Statistics
+```{r}
+summary_male <- d_male %>%
+  group_by(Site) %>%
+    summarize(
+      R50_mean = mean(R50), 
+      R50_sd = sd(R50), 
+      L50_mean = mean(L50), 
+      L50_sd = sd(L50),
+      BR50_mean = mean(BR50),
+      BR50_sd = sd(BR50),
+      Testes_Weight_mg_mean = mean(Testes_Weight_mg), 
+      Testes_Weight_mg_sd = sd(Testes_Weight_mg), 
+      Wing_Length_cm_mean = mean(Wing_Length_cm), 
+      Wing_Length_cm_sd = sd(Wing_Length_cm))
+```
 
+### Female Summary Statistics
+```{r}
+summary_female <- d_female %>%
+  group_by(Site) %>%
+    summarize(
+      Sperm_Count_mean = mean(Sperm_Count), 
+      Sperm_Count_sd = sd(Sperm_Count))
+```
+      
 ## Inferential Statistical Test: 
