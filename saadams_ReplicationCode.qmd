@@ -74,16 +74,16 @@ Mean, sd, n in sample
 summary_male <- d_male %>%
   group_by(Site) %>%
     summarize(
-      R50_mean = mean(R50), 
-      R50_sd = sd(R50), 
-      L50_mean = mean(L50), 
-      L50_sd = sd(L50),
-      BR50_mean = mean(BR50),
-      BR50_sd = sd(BR50),
-      Testes_Weight_mg_mean = mean(Testes_Weight_mg), 
-      Testes_Weight_mg_sd = sd(Testes_Weight_mg), 
-      Wing_Length_cm_mean = mean(Wing_Length_cm), 
-      Wing_Length_cm_sd = sd(Wing_Length_cm))
+      R50_mean = round(mean(R50), 3), 
+      R50_sd = round(sd(R50), 3),
+      L50_mean = round(mean(L50), 3), 
+      L50_sd = round(sd(L50), 3),
+      BR50_mean = round(mean(BR50), 3),
+      BR50_sd = round(sd(BR50), 3),
+      Testes_Weight_mg_mean = round(mean(Testes_Weight_mg), 3),
+      Testes_Weight_mg_sd = round(sd(Testes_Weight_mg), 3),
+      Wing_Length_cm_mean = round(mean(Wing_Length_cm), 3),
+      Wing_Length_cm_sd = round(sd(Wing_Length_cm), 3))
 ```
 
 ### Female Summary Statistics
@@ -91,8 +91,8 @@ summary_male <- d_male %>%
 summary_female <- d_female %>%
   group_by(Site) %>%
     summarize(
-      Sperm_Count_mean = mean(Sperm_Count), 
-      Sperm_Count_sd = sd(Sperm_Count))
+      Sperm_Count_mean = round(mean(Sperm_Count), 3), 
+      Sperm_Count_sd = round(sd(Sperm_Count), 3))
 ```
       
 ## Inferential Statistical Test: 
