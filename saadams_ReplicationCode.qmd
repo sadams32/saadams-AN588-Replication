@@ -29,6 +29,7 @@ You should also embed in your .Rmd file, near your own results, any images or fi
 library(curl)
 library(tidyverse)
 library(dplyr)
+library(gridExtra)
 ```
 
 ## Loading and Cleaning Data
@@ -41,6 +42,8 @@ d_male <- read.csv(f_male, header = TRUE, sep = ",", stringsAsFactors = FALSE) #
 
 colnames(d_male) <- c("Site", "R50", "L50", "BR50", "Testes_Weight_mg", "Wing_Length_cm")
 
+d_male$Site <- as.factor(d_male$Site) # convert vector to factor
+
 d_male <- na.omit(d_male) # omit "NA" entries
 
 head(d_male) # preview
@@ -52,6 +55,8 @@ f_female <- curl("https://raw.githubusercontent.com/sadams32/saadams-AN588-Repli
 d_female <- read.csv(f_female, header = TRUE, sep = ",", stringsAsFactors = FALSE) # read in data
 
 colnames(d_female) <- c("Site", "Sperm_Count")
+
+d_female$Site <- as.factor(d_female$Site) # convert vector to factor
 
 d_female <- na.omit(d_female) # omit "NA" entries
 
@@ -69,13 +74,13 @@ I'm going to start with summary statistics by collection site
 
 Mean, sd, n in sample
 
-### Male Summary Statistics
+### Male Summary Statistics - NEED TO ADDD N VALUE COLUMN per group
 ```{r}
-summary_male <- d_male %>%
-  group_by(Site) %>%
+summary_male <- d_male %>% # make tibble for summary statistics of male butterflies
+  group_by(Site) %>% # sort results by site (ex. one row is the summary stats of the "Davis site")
     summarize(
-      R50_mean = round(mean(R50), 3), 
-      R50_sd = round(sd(R50), 3),
+      R50_mean = round(mean(R50), 3), # mean of R50, rounded to 3 decimal places (same operation for other means)
+      R50_sd = round(sd(R50), 3), # standard deviation (sd) of R50, rounded to 3 decimal places (same operation for other SDs)
       L50_mean = round(mean(L50), 3), 
       L50_sd = round(sd(L50), 3),
       BR50_mean = round(mean(BR50), 3),
@@ -86,13 +91,134 @@ summary_male <- d_male %>%
       Wing_Length_cm_sd = round(sd(Wing_Length_cm), 3))
 ```
 
-### Female Summary Statistics
+### Female Summary Statistics - - NEED TO ADDD N VALUE COLUMN per group
 ```{r}
-summary_female <- d_female %>%
-  group_by(Site) %>%
+summary_female <- d_female %>% # make tibble for summary statistics of female butterflies
+  group_by(Site) %>% # sort results by site (ex. one row is the summary stats of the "Davis site")
     summarize(
-      Sperm_Count_mean = round(mean(Sperm_Count), 3), 
-      Sperm_Count_sd = round(sd(Sperm_Count), 3))
+      Sperm_Count_mean = round(mean(Sperm_Count), 3), # mean of spermatophore count, rounded to 3 decimal places
+      Sperm_Count_sd = round(sd(Sperm_Count), 3)) # standard deviation (sd) of spermatophore count, rounded to 3 decimal places
 ```
       
-## Inferential Statistical Test: 
+## Inferential Statistical Test # 1 = ANOVA (table 1) - only males??
+
+make sure to add n= ???
+```{r}
+R50_model <- lm(Testes_Weight_mg ~ R50 + Wing_Length_cm + Site, data = d_male) #Y ~ X1 + X2 + X3
+
+L50_model <- lm(Testes_Weight_mg ~ L50 + Wing_Length_cm + Site, data = d_male) #Y ~ X1 + X2 + X3
+
+BR50_model <- lm(Testes_Weight_mg ~ BR50 + Wing_Length_cm + Site, data = d_male) #Y ~ X1 + X2 + X3
+```
+
+
+```{r}
+R50_anova <- anova(R50_model)
+
+L50_anova <- anova(L50_model)
+
+BR50_anova <- anova(BR50_model)
+
+```
+
+
+```{r}
+R50_anova_t1 <- R50_anova[rownames(R50_anova) != "Residuals",]
+L50_anova_t1 <- L50_anova[rownames(L50_anova) != "Residuals",]
+BR50_anova_t1 <- BR50_anova[rownames(BR50_anova) != "Residuals",]
+
+#  R50
+p_format_R50 <- ifelse(R50_anova_t1$`Pr(>F)` < 0.001, "<0.001", round(R50_anova_t1$`Pr(>F)`, 3))
+
+
+table1_R50 <- data.frame(
+  row.names = c("Color variable", "Wing length", "Site"),
+  f_R50 = paste0(round(R50_anova_t1$`F value`, 2), "(", R50_anova_t1$Df, ")"),
+  p_R50 = p_format_R50
+)
+colnames(table1_R50) <- c("F-value(Df)", "P-value")
+
+# L50
+p_format_L50 <- ifelse(L50_anova_t1$`Pr(>F)` < 0.001, "<0.001", round(L50_anova$`Pr(>F)`, 3))
+
+table1_L50 <- data.frame(
+  row.names = c("Color variable", "Wing length", "Site"),
+  f_L50 = paste0(round(L50_anova_t1$`F value`, 2), "(", L50_anova_t1$Df, ")"),
+  p_L50 = p_format_L50
+)
+
+colnames(table1_L50) <- c("F-value(Df)", "P-value")
+
+# BR50
+p_format_BR50 <- ifelse(BR50_anova_t1$`Pr(>F)` < 0.001, "<0.001", round(BR50_anova_t1$`Pr(>F)`, 2))
+
+table1_BR50 <- data.frame(
+  row.names = c("Color variable", "Wing length", "Site"),
+  F_BR50 = paste0(round(BR50_anova_t1$`F value`, 2), "(", BR50_anova_t1$Df, ")"),
+  p_BR50 = p_format_BR50
+)
+
+colnames(table1_BR50) <- c("F-value(Df)", "P-value")
+
+```
+
+```{r}
+#Fstat calc
+f_stat_sum <- function(anova) {
+  MS_factors <- anova$`Mean Sq`[1:(nrow(anova)-1)]  # mean Squares for factors
+  MS_residuals <- anova$`Mean Sq`[nrow(anova)]  # mean Square for residuals
+  
+  SS_factors <- MS_factors * anova$Df[1:(nrow(anova)-1)]  # sum of squares (SS) = MS * Df for factors
+  SS_residuals <- MS_residuals * anova$Df[nrow(anova)]  # sum of squares (SS) for residuals
+  
+  SST <- sum(SS_factors) + SS_residuals
+  SSB <- sum(SS_factors)
+  
+  df_between <- sum(anova$Df[1:(length(anova$Df)-1)]) # Sum of dfs of all factors
+  df_within <- anova$Df[nrow(anova)] # degrees of freedom within groups
+  
+  MSB <- sum(SS_factors) / df_between # mean squares between groups
+  MSW <- SS_residuals / df_within # mean squares within groups
+  
+  # Calculate R-squared: SSB / SST
+  R_squared <- SSB / SST
+  
+  F_statistic <- MSB / MSW
+  
+  p_value_overall <- 1 - pf(F_statistic, df_between, df_within)
+  p_format_overall <- ifelse(p_value_overall < 0.001, "<0.001", round(p_value_overall, 3))
+  
+  result <- list(
+    R_squared = round(R_squared, 2),
+    F_statistic = round(F_statistic, 2),
+    p_value = p_format_overall)
+  
+  return(result)
+}
+```
+
+```{r}
+
+```
+
+```{r}
+
+# View tables (dataframes)
+table1_R50
+f_stat_sum(R50_anova)
+
+
+table1_L50
+f_stat_sum(L50_anova)
+
+table1_BR50
+f_stat_sum(BR50_anova)
+
+```
+
+
+INCLUDE WHAT FSTAT means ->>> interpretations
+
+## Inferential Statistical Test # 2 = Tukeys (figure 3)
+
+
