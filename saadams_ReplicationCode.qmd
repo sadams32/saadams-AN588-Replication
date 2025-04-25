@@ -11,6 +11,7 @@ I will be looking for you to clearly take your reader through all of the element
 Annotate your code well, and good luck!
 
 # Introduction
+
 Note discrepancies in reported individuals and actual ones in raw data(even in text it is not right/doesn't add up)
 
 # Study Description
@@ -19,7 +20,7 @@ Note discrepancies in reported individuals and actual ones in raw data(even in t
 
 You should also embed in your .Rmd file, near your own results, any images or figures from the original paper that you replicate so that I can see them together. These should be included as .png files in a folder called “img” within your repo. You can include code like the following to reference files in your “img” folder for inclusion in your document.
 
-# Step 1: Getting Started 
+# Step 1: Getting Started
 
 ## Setting Up Your Workspace
 
@@ -29,16 +30,20 @@ You should also embed in your .Rmd file, near your own results, any images or fi
 library(curl)
 library(tidyverse)
 library(dplyr)
+library(car)
 library(gridExtra)
+library(kableExtra)
 ```
 
 ## Loading and Cleaning Data
- In summary, midpoint (R50, associated with brightness) was the average percent reflectance between 300–375 and 450–550 nm; LR50, associated with hue, was calculated as the associated wavelength to R50; and BR50, associated with saturation, was calculated by finding the slope of the line tangent to the point at R50. 
+
+In summary, midpoint (R50, associated with brightness) was the average percent reflectance between 300–375 and 450–550 nm; LR50, associated with hue, was calculated as the associated wavelength to R50; and BR50, associated with saturation, was calculated by finding the slope of the line tangent to the point at R50.
 
 ### Males
+
 ```{r}
 f_male <- curl("https://raw.githubusercontent.com/sadams32/saadams-AN588-Replication/refs/heads/main/Espeset2021_AnEntSoc_1.csv") # male butterfly data (R50, L50, BR50, testes weight (mg), wing length (cm))
-d_male <- read.csv(f_male, header = TRUE, sep = ",", stringsAsFactors = FALSE) # read in data
+d_male <- read.csv(f_male, header = TRUE, sep = ",", stringsAsFactors = TRUE) # read in data
 
 colnames(d_male) <- c("Site", "R50", "L50", "BR50", "Testes_Weight_mg", "Wing_Length_cm")
 
@@ -50,6 +55,7 @@ head(d_male) # preview
 ```
 
 ### Females
+
 ```{r}
 f_female <- curl("https://raw.githubusercontent.com/sadams32/saadams-AN588-Replication/refs/heads/main/Espeset2021_AnEntSoc_2.csv") # female butterfly data (spermatophore counts)
 d_female <- read.csv(f_female, header = TRUE, sep = ",", stringsAsFactors = FALSE) # read in data
@@ -67,7 +73,8 @@ head(d_female) # preview
 
 # Step 2: Analyses
 
-## Descriptive Statistical test: 
+## Descriptive Statistical test:
+
 Note: not provided in text but Dr, Schmitt said it was fine because you would assume they did these
 
 I'm going to start with summary statistics by collection site
@@ -75,10 +82,12 @@ I'm going to start with summary statistics by collection site
 Mean, sd, n in sample
 
 ### Male Summary Statistics - NEED TO ADDD N VALUE COLUMN per group
+
 ```{r}
 summary_male <- d_male %>% # make tibble for summary statistics of male butterflies
   group_by(Site) %>% # sort results by site (ex. one row is the summary stats of the "Davis site")
     summarize(
+      n = n(),
       R50_mean = round(mean(R50), 3), # mean of R50, rounded to 3 decimal places (same operation for other means)
       R50_sd = round(sd(R50), 3), # standard deviation (sd) of R50, rounded to 3 decimal places (same operation for other SDs)
       L50_mean = round(mean(L50), 3), 
@@ -92,17 +101,21 @@ summary_male <- d_male %>% # make tibble for summary statistics of male butterfl
 ```
 
 ### Female Summary Statistics - - NEED TO ADDD N VALUE COLUMN per group
+
 ```{r}
 summary_female <- d_female %>% # make tibble for summary statistics of female butterflies
   group_by(Site) %>% # sort results by site (ex. one row is the summary stats of the "Davis site")
     summarize(
+      n = n(),
       Sperm_Count_mean = round(mean(Sperm_Count), 3), # mean of spermatophore count, rounded to 3 decimal places
       Sperm_Count_sd = round(sd(Sperm_Count), 3)) # standard deviation (sd) of spermatophore count, rounded to 3 decimal places
 ```
-      
-## Inferential Statistical Test # 1 = ANOVA (table 1) - only males??
 
-make sure to add n= ???
+## Inferential Statistical Test I: ANCOVA (Table 1)
+
+### Defining the Models
+note: experimenters appear to Type I regression, even though Type II could have been used. When I tried to use Type II (the type of regression was not specified by the authors) the results were not replicated from the text. When Type I is used, the results (see Table 1) are replicated exactly.
+
 ```{r}
 R50_model <- lm(Testes_Weight_mg ~ R50 + Wing_Length_cm + Site, data = d_male) #Y ~ X1 + X2 + X3
 
@@ -111,6 +124,207 @@ L50_model <- lm(Testes_Weight_mg ~ L50 + Wing_Length_cm + Site, data = d_male) #
 BR50_model <- lm(Testes_Weight_mg ~ BR50 + Wing_Length_cm + Site, data = d_male) #Y ~ X1 + X2 + X3
 ```
 
+### ANCOVA Assumption Checks
+The authors state that for all models they checked the distribution of residuals for normality as well as the variance inflation factors "to ensure the independence of predictors." We will do the same check here, as well as others (ex. homoscedasticity) for completeness.
+
+#### R50_model
+##### Preview the model
+
+```{r}
+coef(R50_model)
+summary(R50_model)
+```
+
+##### Check 1: Samples are independent
+
+There is no overlap between the samples because they were collected from different, isolated geographic sites. There is no reason to believe that the samples overlap. 
+
+##### Check 2: Homoscedasticity
+
+```{r}
+plot(fitted(R50_model), residuals(R50_model)) # module 15
+abline(0,0)
+```
+
+```{r}
+plot(R50_model, which = 1)
+```
+
+```{r}
+plot(R50_model, 3) # scale-location (also in book of R but went to different sources for code)
+```
+The first two plots (very similar) show that the residuals are scattered around 0 fairly randomly and that their spread around 0 appears pretty constant, indicating homoscedasticity. The horizontal line in the scale-location plot with equally and randomly spread out points also validates the assumption of homoscedasticity.
+
+##### Check 3: Linearity between co-variate and dependent variable
+
+We will use component-plus-residual plot analysis to confirm the linearity assumption is satisfied.
+
+```{r}
+crPlots(R50_model) # Book of R p. 233 
+```
+The first two plots for R50 and Wing_length_cm follow the linear trend well. 
+
+note: The boxplots for Site can be used to assess homoscedasticity in addition to the tests we saw above. The plots are centered around 0 and have a relatively similar variance (though Washoe's variance appears larger, but the authors moved forward with their analysis so we will accept this), indicating homoscedasticity.
+
+##### Check 4: Normality
+
+```{r}
+hist(R50_model$residuals)
+```
+
+```{r}
+qqnorm(R50_model$residuals)
+```
+The histogram of the residuals follows a normal distribution. The points in the Q-Q plot appear to fall mostly on a linear trend line, which also indicates normality (though there is is some trail-off at the ends, but we will accept that and move forward since the authors did).
+
+```{r}
+shapiro.test(R50_model$residuals)
+```
+The results of this test are non-significant (p > 0.05) so there is not evidence that this is a non-normal distribution.
+
+##### Check 5: Variance inflation factors (performed by authors)
+
+variance inflation factors were evaluated to ensure the independence of predictors
+
+```{r}
+vif(R50_model)
+vif(R50_model) > 10
+```
+None of the variance inflation factors are greater than 10, so the variables are independent (the variables are not indicated to have a problem with multicollinearity (R in Action p .235))
+
+#### L50_model
+##### Preview the model
+
+```{r}
+coef(L50_model)
+summary(L50_model)
+```
+
+##### Check 1: Samples are independent
+
+There is no overlap between the samples because they were collected from different, isolated geographic sites. there is no reason to believe that the sample overlap. 
+
+##### Check 2: Homoscedasticity
+
+```{r}
+plot(fitted(L50_model), residuals(L50_model)) # module 15
+abline(0,0)
+```
+
+```{r}
+plot(L50_model, which = 1)
+```
+
+```{r}
+plot(L50_model, 3) # scale-location (also in book of R but went to different sources for code)
+```
+The first two plots (very similar) show that the residuals are scattered around 0 fairly randomly and that their spread around 0 appears pretty constant, indicating homoscedasticity. The horizontal line in the scale-location plot with equally and randomly spread out points also validates the assumption of homoscedasticity.
+
+##### Check 3: Linearity between co-variate and dependent variable
+
+We will use component-plus-residual plot analysis to confirm the linearity assumption is satisfied.
+
+```{r}
+crPlots(L50_model) # Book of R p. 233 
+```
+The first two plots for R50 and Wing_length_cm follow the linear trend well. 
+
+note: The boxplots for Site can be used to assess homoscedasticity in addition to the tests we saw above. The plots are centered around 0 and have a relatively similar variance (though Washoe's variance appears larger, but the authors moved forward with their analysis so we will accept this), indicating homoscedasticity.
+
+##### Check 4: Normality
+
+```{r}
+hist(L50_model$residuals)
+```
+
+```{r}
+qqnorm(L50_model$residuals)
+```
+The histogram of the residuals follows a normal distribution. The points in the Q-Q plot appear to fall mostly on a linear trend line, which also indicates normality (though there is is some trail-off at the ends, but we will accept that and move forward since the authors did).
+
+```{r}
+shapiro.test(L50_model$residuals)
+```
+The results of this test are non-significant (p > 0.05) so there is not evidence that this is a non-normal distribution.
+
+##### Check 5: Variance inflation factors (performed by authors)
+
+variance inflation factors were evaluated to ensure the independence of predictors
+
+```{r}
+vif(L50_model)
+vif(L50_model) > 10
+```
+None of the variance inflation factors are greater than 10, so the variables are independent (the variables are not indicated to have a problem with multicollinearity (R in Action p .235))
+
+#### BR50_model
+##### Preview the model
+
+```{r}
+coef(BR50_model)
+summary(BR50_model)
+```
+
+##### Check 1: Samples are independent
+
+There is no overlap between the samples because they were collected from different, isolated geographic sites. there is no reason to believe that the sample overlap. 
+
+##### Check 2: Homoscedasticity
+
+```{r}
+plot(fitted(BR50_model), residuals(BR50_model)) # module 15
+abline(0,0)
+```
+
+```{r}
+plot(BR50_model, which = 1)
+```
+
+```{r}
+plot(BR50_model, 3) # scale-location (also in book of R but went to different sources for code)
+```
+The first two plots (very similar) show that the residuals are scattered around 0 fairly randomly and that their spread around 0 appears pretty constant, indicating homoscedasticity. The horizontal line in the scale-location plot with equally and randomly spread out points also validates the assumption of homoscedasticity.
+
+##### Check 3: Linearity between co-variate and dependent variable
+
+We will use component-plus-residual plot analysis to confirm the linearity assumption is satisfied.
+
+```{r}
+crPlots(BR50_model) # Book of R p. 233 
+```
+The first two plots for R50 and Wing_length_cm follow the linear trend well. 
+
+note: The boxplots for Site can be used to assess homoscedasticity in addition to the tests we saw above. The plots are centered around 0 and have a relatively similar variance (though Washoe's variance appears larger, but the authors moved forward with their analysis so we will accept this), indicating homoscedasticity.
+
+##### Check 4: Normality
+
+```{r}
+hist(BR50_model$residuals)
+```
+
+```{r}
+qqnorm(BR50_model$residuals)
+```
+The histogram of the residuals follows a normal distribution. The points in the Q-Q plot appear to fall mostly on a linear trend line, which also indicates normality (though there is is some trail-off at the ends, but we will accept that and move forward since the authors did).
+
+```{r}
+shapiro.test(BR50_model$residuals)
+```
+The results of this test are non-significant (p > 0.05) so there is not evidence that this is a non-normal distribution.
+
+##### Check 5: Variance inflation factors (performed by authors)
+
+variance inflation factors were evaluated to ensure the independence of predictors
+
+```{r}
+vif(BR50_model)
+vif(BR50_model) > 10
+```
+None of the variance inflation factors are greater than 10, so the variables are independent (the variables are not indicated to have a problem with multicollinearity (R in Action p .235))
+
+**Now that we have checked our assumptions, let's proceed...**
+
+### ANCOVA 
 
 ```{r}
 R50_anova <- anova(R50_model)
@@ -118,10 +332,11 @@ R50_anova <- anova(R50_model)
 L50_anova <- anova(L50_model)
 
 BR50_anova <- anova(BR50_model)
-
 ```
 
+### Table 1
 
+#### Table prep
 ```{r}
 R50_anova_t1 <- R50_anova[rownames(R50_anova) != "Residuals",]
 L50_anova_t1 <- L50_anova[rownames(L50_anova) != "Residuals",]
@@ -129,7 +344,6 @@ BR50_anova_t1 <- BR50_anova[rownames(BR50_anova) != "Residuals",]
 
 #  R50
 p_format_R50 <- ifelse(R50_anova_t1$`Pr(>F)` < 0.001, "<0.001", round(R50_anova_t1$`Pr(>F)`, 3))
-
 
 table1_R50 <- data.frame(
   row.names = c("Color variable", "Wing length", "Site"),
@@ -160,13 +374,16 @@ table1_BR50 <- data.frame(
 
 colnames(table1_BR50) <- c("F-value(Df)", "P-value")
 
+# Combine into one table
+table1_rep <-cbind(table1_R50, table1_L50, table1_BR50)
 ```
 
+#### Define F-Stat function
 ```{r}
-#Fstat calc
+# Fstat calc
 f_stat_sum <- function(anova) {
-  MS_factors <- anova$`Mean Sq`[1:(nrow(anova)-1)]  # mean Squares for factors
-  MS_residuals <- anova$`Mean Sq`[nrow(anova)]  # mean Square for residuals
+  MS_factors <- anova$`Mean Sq`[1:(nrow(anova)-1)]  # mean squares for factors
+  MS_residuals <- anova$`Mean Sq`[nrow(anova)]  # mean square for residuals
   
   SS_factors <- MS_factors * anova$Df[1:(nrow(anova)-1)]  # sum of squares (SS) = MS * Df for factors
   SS_residuals <- MS_residuals * anova$Df[nrow(anova)]  # sum of squares (SS) for residuals
@@ -197,28 +414,193 @@ f_stat_sum <- function(anova) {
 }
 ```
 
+#### F-Stat calculation
 ```{r}
+# Calculate F-statistics for the different models (R50, L50, BR50)
+sum_R50 <- f_stat_sum(R50_anova)
+
+sum_L50 <- f_stat_sum(L50_anova)
+
+sum_BR50 <- f_stat_sum(BR50_anova)
 
 ```
 
+#### Format the final Table 1 to hold these results
 ```{r}
+# add a summary row for each model, degrees of freedom = 5,179 (R/L/BR50: 1 DF, Wing Length: 1 DF, Sites: 4-1 = 3 DF --> 1 + 1 + 3 = 5 DF (lower) & 185 (total individuals) - 1 - (1 + 1 + 3) = 179 DF (upper))
+table_sum <- data.frame(
+  row.names = c(""),
+  F_R50 = paste0("F(5,179)", " = " , sum_R50$F_statistic, "; ", "R-squared = ", sum_R50$R_squared, "; ", "P ", sum_R50$p_value),
+  P_R50 = "",
+  F_L50 = paste0("F(5,179)", " = " , sum_L50$F_statistic, "; ", "R-squared = ", sum_L50$R_squared, "; ", "P ", sum_L50$p_value),
+  P_L50 = "",
+  F_BR50 = paste0("F(5,179)", " = " , sum_BR50$F_statistic, "; ", "R-squared = ", sum_BR50$R_squared, "; ", "P ", sum_BR50$p_value),
+  P_BR50 = ""
+  )
 
-# View tables (dataframes)
-table1_R50
-f_stat_sum(R50_anova)
+colnames(table_sum) <- c("F-value(Df)", "P-value","F-value(Df)", "P-value", "F-value(Df)", "P-value") # column names (for the three headers)
 
+table1_rep <- rbind(table1_rep, table_sum) # bind summary row to rest of table
 
-table1_L50
-f_stat_sum(L50_anova)
-
-table1_BR50
-f_stat_sum(BR50_anova)
-
+table1_rep # print table so far
 ```
 
+Let's format the table to look a little nicer...
+```{r}
+kbl(table1_rep) %>%
+  add_header_above(c(" " = 1, "Testes by R50 Model" = 2, "Testes by L50 Model" = 2, "Testes by BR50 Model" = 2)) # add blank header to match paper table (top left) + rest of header names
+```
 
-INCLUDE WHAT FSTAT means ->>> interpretations
+**note: it is very complicated to add subscripts to the table, so I put the degrees of freedom in parentheses**
 
-## Inferential Statistical Test # 2 = Tukeys (figure 3)
+INCLUDE WHAT FSTAT means -\>\>\> interpretations
+
+## Inferential Statistical Test II: Post hoc comparisons with Tukey's honest significant difference (HSD) test (Figure 3a)
+
+### Import data again (only Site and Testes Weight columns will be included)
+```{r}
+f_male <- curl("https://raw.githubusercontent.com/sadams32/saadams-AN588-Replication/refs/heads/main/Espeset2021_AnEntSoc_1.csv") # male butterfly data (R50, L50, BR50, testes weight (mg))
+d_male_3a <- read.csv(f_male, header = TRUE, sep = ",", stringsAsFactors = TRUE) # read in data
+
+d_male_3a <- d_male_3a %>%
+  select(Site, TestesWeight) # excludes R50, L50, BR50, and Wing Length columns
+  
+colnames(d_male_3a) <- c("Site", "Testes_Weight_mg") # rename column names
 
 
+d_male_3a <- d_male_3a %>%
+  mutate(Site = as.character(Site), 
+         Site = ifelse(Site == "UNR", "Reno", Site)) %>%
+  mutate(Site = as.factor(Site)) # rename UNR to Reno (so replicated figure matches paper's figure)
+
+d_male_3a$Site <- as.factor(d_male_3a$Site) # make sure vector converted to factor
+
+d_male_3a <- na.omit(d_male_3a) # omit "NA" entries
+
+head(d_male_3a) # preview
+```
+
+### Defining the Model
+```{r}
+model_3a <- lm(Testes_Weight_mg ~ Site, data = d_male_3a) # testes weight related to site
+```
+
+### ANOVA Assumption Check
+The authors state that for all models they checked the distribution of residuals for normality as well as the variance inflation factors "to ensure the independence of predictors." We will do the same check here, as well as others (ex. homoscedasticity) for completeness.
+
+#### Preview the model
+```{r}
+coef(model_3a) # coefficients
+summary(model_3a) # summary
+```
+
+#### Check 1: Samples are independent
+
+There is no overlap between the samples because they were collected from different, isolated geographic sites. There is no reason to believe that the samples overlap. 
+
+#### Check 2: Homoscedasticity
+
+```{r}
+sds_3a <- summarize(group_by(d_male_3a, Site), sd(Testes_Weight_mg)) # calculate standard deviations of testes weight goruped by site
+
+max(sds_3a$`sd(Testes_Weight_mg)`)/min(sds_3a$`sd(Testes_Weight_mg)`) # ratio of max/min
+```
+
+The variances appear to be relatively equal because the ratio of max/min is less than 2. This indicates that the assumption of homoscedasticity is met.
+
+#### Check 3: Normality
+
+```{r}
+hist(model_3a$residuals) # histogram of residuals
+```
+
+```{r}
+qqnorm(model_3a$residuals) # Q-Q plot of residuals
+```
+
+The histogram of the residuals follows a pretty normal distribution. The points in the Q-Q plot appear to fall mostly on a linear trend line, which also indicates normality (though there is is some trail-off at the ends, but we will accept that and move forward since the authors did).
+
+```{r}
+s <- shapiro.test(model_3a$residuals) # Shapiro Test for residuals
+s
+```
+The results of this test are non-significant (p > 0.05) so there is not evidence that this is a non-normal distribution.
+
+### ANOVA and Tukey's HSD
+```{r}
+# ANOVA
+anova_3a <- aov(Testes_Weight_mg ~ Site, data = d_male_3a) # testes weight as function of explanatory variable (site)
+
+# Tukey pair-wise comparisons 
+tukey_3a <- TukeyHSD(anova_3a, "Site", conf.level = 0.95) # 
+print(tukey_3a) # preview significance results (will assign letters manually)
+```
+Based on these results, Sutter and Davis are the only sites that are not statistically different (p > 0.05) and will then be assigned the same letter.
+
+### Plot Prep
+```{r}
+# Based on Tukey results (above), manually assign letter comparisons
+letter_manual <- c("Davis" = "a", "Sutter" = "a", "Washoe" = "b", "Reno" = "c") 
+
+# Make table with information that will be used for creating plot (including order changes of sites to match figure in paper)
+table_3a <- d_male_3a %>%
+  group_by(Site) %>%
+  summarize(
+    mean = mean(Testes_Weight_mg),
+    sd = sd(Testes_Weight_mg),
+    n = n(),
+    se = sd / sqrt(n),
+    lower = mean - qt(0.975, df = n - 1) * se,
+    upper = mean + qt(0.975, df = n - 1) * se) %>%
+  mutate(letters = letter_manual[as.character(Site)]) # apply manual letter labels
+
+site_order <- c("Davis", "Sutter", "Washoe", "Reno") # reorder labels based on text
+table_3a$Site <- factor(table_3a$Site, levels = site_order) # define factor levels for table
+d_male_3a$Site <- factor(d_male_3a$Site, levels = site_order) # define factor levels for dataset
+
+site_colors <- c("Davis" = "darkolivegreen3", "Sutter" = "seagreen4", "Washoe" = "skyblue2", "Reno" = "royalblue3") # assign colors by site to match paper
+
+site_shapes <- c("Davis" = 15, "Sutter" = 15, "Washoe" = 16, "Reno" = 16) # assign shapes by site to match paper (15 = square, 16 = circle)
+```
+
+### Plot
+```{r}
+Figure_3a <- ggplot() + 
+  geom_jitter(data = d_male_3a, 
+        aes(Site, Testes_Weight_mg, color = Site, shape = Site), 
+        width = 0.2, alpha = 0.6) + 
+  geom_errorbar(data = table_3a, 
+        aes(x = Site, ymin = lower, ymax = upper), 
+        width = 0.2,
+        linewidth = 1.1) +
+  geom_text(data = table_3a, 
+        aes(x = Site, y = 0.6, label = letters), 
+        size = 6, vjust = 0) +
+  geom_point(data = table_3a, 
+        aes(x = Site, y = mean)) +
+    annotate("text", x = 4.5, y = 0.65, label = "A", size = 7) +
+  labs(title = "Testes Weight by Site", x = NULL, y = "Testes Weight (mg)") + 
+  scale_color_manual(values = site_colors) +
+  scale_shape_manual(values = site_shapes) +
+  scale_y_continuous(breaks = seq(0,0.6, by = 0.1), limits = c(0,0.65)) +
+  theme_bw() +
+  theme(legend.position = "none",
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.text = element_text(size = 14, color = "black"),
+        axis.title = element_text(size = 14),
+        plot.title = element_text(face = "bold", hjust = 0.5))
+
+ggsave("Figure_3a.png", plot = Figure_3a, width = 9, height = 4)
+```
+
+Citation
+https://www.youtube.com/watch?v=Pc1RVwEIT5k (letter tests)
+https://www.sthda.com/english/wiki/ggplot2-point-shapes (ggplot point shapes)
+https://www.rdocumentation.org/packages/ggplot2/versions/0.9.0/topics/ggsave (ggsave for plot, adjust height and width)
+
+Book of R around page 585 (help with checks + moduels for anova and ancova)
+https://godatadrive.com/blog/basic-guide-to-test-assumptions-of-linear-regression-in-r (equal spread of points/variances are equal check)
+p.235 R in action for vairnance inflation 
+
+https://library.virginia.edu/data/articles/diagnostic-plots
