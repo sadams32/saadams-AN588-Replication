@@ -1,30 +1,65 @@
 ---
-title: "saadams_ReplicationCode"
+title: "Analysis Replication Assignment"
 format: html
+code-overflow: wrap
 editor: visual
+theme: "flatly"
+toc: true
+toc-depth: 5
+code-block-bg: true
+code-block-border-left: "darkseagreen"
+highlight-style: "gruvbox"
 ---
 
-You should start your replication report with a short description of the study and of the specific data and replication analyses you will be performing, to orient your reader. Outline (briefly) the goal of the original paper, the data set used, and the analyses conducted, then describe which you will replicate. You should also demonstrate how you read your datafile into R, and show a few lines of raw data in your output (e.g., using head()).
+## In Search of an Honest Butterfly
 
-I will be looking for you to clearly take your reader through all of the elements of data manipulation, analysis, and, where appropriate, visualization. You should provide as much coding detail, explanation, and output tables as necessary to compare your results to those published.
+![](img/cabbage.png){fig-align="center"}
 
-Annotate your code well, and good luck!
+------------------------------------------------------------------------
 
-# Introduction
+# INTRODUCTION ---
 
-Note discrepancies in reported individuals and actual ones in raw data(even in text it is not right/doesn't add up)
+## Study Description
 
-# Study Description
+In the paper "In Search of an Honest Butterfly: Sexually Selected Wing Coloration and Reproductive Traits From Wild Populations of the Cabbage White Butterfly (2021), the authors Anne E. Espeset and Matthew L. Forister describe their investigation of **Pieris rapae** (cabbage white butterfly). Specifically, these researchers tied to determine whether wing coloration functions as an honest signal of male reproductive quality, as indicated by testes size. Butterfly data was collected from four field sites (two in California (Davis and Sutter) and two in Nevada (UNR/Reno and Washoe)) which varied in agricultural use. The following data were collected from male specimens, organized by site: colorimetric variables: R50 (associated with brightness; average % reflectance between 300–375 and 450–550 nm), LR50 (associated with hue; associated wavelength to R50), and BR50 (associated with saturation; the slope of the line tangent to the point at R50); Testes Weight (mg), and Wing Length (cm). Data collected from female butterflies, also organized by site, included only the spermatophore count.
 
-# Introduction to analyses we will reproduce
+The authors outlined three hypotheses that guided their study:
 
-You should also embed in your .Rmd file, near your own results, any images or figures from the original paper that you replicate so that I can see them together. These should be included as .png files in a folder called “img” within your repo. You can include code like the following to reference files in your “img” folder for inclusion in your document.
+(1) Does wing coloration predict tests size? Since larger testes indicate a higher likelihood to produce offspring in this species, this is an important reproductive trait.
 
-# Step 1: Getting Started
+(2) Do wing coloration and reproductive traits vary across populations with different environmental conditions (whether a site is more natural or agricultural)?
 
-## Setting Up Your Workspace
+(3) Does spermatophore count (as a proxy for mating frequency) differ between study sites?
 
-## Loading Packages
+The authors included the following analyses:
+
+-   Linear models predicting testes weight (mg) based on colorimetric variables (R50, LR50, and BR50), wing length (cm), and site (ANCOVA)
+
+-   Site comparisons for testes weight and color variables
+
+-   Tukey's HSD for post hoc tests for testes weight, colorimetrics, spermatophore count, and slope (testes weight by color) by site
+
+## Replication Plan
+
+(1) Load and clean male (Espeset2021_AnEntSoc_1) and female (Espeset2021_AnEntSoc_2) datasets.
+
+(2) Summarize male and female data variables with means and standard deviations. These summaries are not explicitly written in the paper, but I was told by Dr. Schmitt to work under the assumption that these had been performed.
+
+(3) Replicate Table 1, which summarizes the analysis of colorimetric variables as significant predictors for testes weight with linear models that include wing length as a covariate and site as a categorical predictor. I will perform an ANCOVA and calculate F-statistics and P-values for each colorimetric model. The authors write that the colorimetric variables (R50, LR50, and BR50) were highly correlated so three linear models were run.
+
+(4) Replicate Figure 3a, which summarizes within and among population variation (by site) in testes weight. Tukey HSD tests will be run to determine if there are differences between populations.
+
+## Notes
+
+As in many papers, the step-by-step statistical methods are not outline transparently. For example, the authors explain that they checked the linear models for normality and examined variance inflation factors to determine the independence of predictors. My analysis will check these assumptions as well as others to hopefully replicate a process that way not explicitly written.
+
+Another aspect of this paper that is worth noting is the discrepancy in reporting subject counts. For example, the authors write in the body of the text that they caught and process 367 individuals from the fours sites, but then go on to break down the counts per male and female per site which add up to 371 individuals. Further adding to the confusion, the datasets provided only contain data for 364 butterflies. The authors may have excluded individuals and not reported it. This replication analysis will move forward with the data and counts in the datasets.
+
+------------------------------------------------------------------------
+
+# GETTING STARTED ---
+
+## Load Packages
 
 ```{r}
 library(curl)
@@ -35,17 +70,17 @@ library(gridExtra)
 library(kableExtra)
 ```
 
-## Loading and Cleaning Data
+## Load and Clean Data
 
 In summary, midpoint (R50, associated with brightness) was the average percent reflectance between 300–375 and 450–550 nm; LR50, associated with hue, was calculated as the associated wavelength to R50; and BR50, associated with saturation, was calculated by finding the slope of the line tangent to the point at R50.
 
 ### Males
 
 ```{r}
-f_male <- curl("https://raw.githubusercontent.com/sadams32/saadams-AN588-Replication/refs/heads/main/Espeset2021_AnEntSoc_1.csv") # male butterfly data (R50, L50, BR50, testes weight (mg), wing length (cm))
+f_male <- curl("https://raw.githubusercontent.com/sadams32/saadams-AN588-Replication/refs/heads/main/Espeset2021_AnEntSoc_1.csv") # male butterfly data (R50, LR50, BR50, testes weight (mg), wing length (cm))
 d_male <- read.csv(f_male, header = TRUE, sep = ",", stringsAsFactors = TRUE) # read in data
 
-colnames(d_male) <- c("Site", "R50", "L50", "BR50", "Testes_Weight_mg", "Wing_Length_cm")
+colnames(d_male) <- c("Site", "R50", "LR50", "BR50", "Testes_Weight_mg", "Wing_Length_cm")
 
 d_male$Site <- as.factor(d_male$Site) # convert vector to factor
 
@@ -69,38 +104,35 @@ d_female <- na.omit(d_female) # omit "NA" entries
 head(d_female) # preview
 ```
 
-----ANalyses
+------------------------------------------------------------------------
 
-# Step 2: Analyses
+# DESCRIPTIVE STATISTICAL TEST ---
 
-## Descriptive Statistical test:
+Summary of male and female data variables with means and standard deviations.
 
-Note: not provided in text but Dr, Schmitt said it was fine because you would assume they did these
-
-I'm going to start with summary statistics by collection site
-
-Mean, sd, n in sample
-
-### Male Summary Statistics - NEED TO ADDD N VALUE COLUMN per group
+## Male Summary Statistics
 
 ```{r}
-summary_male <- d_male %>% # make tibble for summary statistics of male butterflies
+summary_male <- d_male %>% 
   group_by(Site) %>% # sort results by site (ex. one row is the summary stats of the "Davis site")
     summarize(
       n = n(),
       R50_mean = round(mean(R50), 3), # mean of R50, rounded to 3 decimal places (same operation for other means)
       R50_sd = round(sd(R50), 3), # standard deviation (sd) of R50, rounded to 3 decimal places (same operation for other SDs)
-      L50_mean = round(mean(L50), 3), 
-      L50_sd = round(sd(L50), 3),
+      LR50_mean = round(mean(LR50), 3), 
+      LR50_sd = round(sd(LR50), 3),
       BR50_mean = round(mean(BR50), 3),
       BR50_sd = round(sd(BR50), 3),
       Testes_Weight_mg_mean = round(mean(Testes_Weight_mg), 3),
       Testes_Weight_mg_sd = round(sd(Testes_Weight_mg), 3),
       Wing_Length_cm_mean = round(mean(Wing_Length_cm), 3),
       Wing_Length_cm_sd = round(sd(Wing_Length_cm), 3))
+
+summary_male %>%
+  kbl(digits = 3, caption = "Summary Statistics by Site - Male Butterflies") # make table with 3 decimal places
 ```
 
-### Female Summary Statistics - - NEED TO ADDD N VALUE COLUMN per group
+## Female Summary Statistics
 
 ```{r}
 summary_female <- d_female %>% # make tibble for summary statistics of female butterflies
@@ -109,37 +141,50 @@ summary_female <- d_female %>% # make tibble for summary statistics of female bu
       n = n(),
       Sperm_Count_mean = round(mean(Sperm_Count), 3), # mean of spermatophore count, rounded to 3 decimal places
       Sperm_Count_sd = round(sd(Sperm_Count), 3)) # standard deviation (sd) of spermatophore count, rounded to 3 decimal places
+
+summary_female %>%
+  kbl(digits = 3, caption = "Summary Statistics by Site - Female Butterflies") # make table with 3 decimal places
 ```
 
-## Inferential Statistical Test I: ANCOVA (Table 1)
+------------------------------------------------------------------------
 
-### Defining the Models
-note: experimenters appear to Type I regression, even though Type II could have been used. When I tried to use Type II (the type of regression was not specified by the authors) the results were not replicated from the text. When Type I is used, the results (see Table 1) are replicated exactly.
+# INFERENTIAL STATISTICAL TEST I ---
+
+#### Table 1 - ANCOVA
+
+To replicate Table 1 we'll analyze colorimetric variables as significant predictors for testes weight with linear models that include wing length as a covariate and site as a categorical predictor. We're going to conduct an ANCOVA and calculate F-statistics and P-values for each colorimetric model (R50, LR50, and BR50).
+
+## Defining the Models
+
+**note: experimenters appear to Type I regression, even though Type II could have been used. When I tried to use Type II (the type of regression was not specified by the authors) the results were not replicated from the text. When Type I is used, the results (see Table 1) are replicated exactly.**
 
 ```{r}
 R50_model <- lm(Testes_Weight_mg ~ R50 + Wing_Length_cm + Site, data = d_male) #Y ~ X1 + X2 + X3
 
-L50_model <- lm(Testes_Weight_mg ~ L50 + Wing_Length_cm + Site, data = d_male) #Y ~ X1 + X2 + X3
+LR50_model <- lm(Testes_Weight_mg ~ LR50 + Wing_Length_cm + Site, data = d_male) #Y ~ X1 + X2 + X3
 
 BR50_model <- lm(Testes_Weight_mg ~ BR50 + Wing_Length_cm + Site, data = d_male) #Y ~ X1 + X2 + X3
 ```
 
-### ANCOVA Assumption Checks
+## ANCOVA Assumption Checks
+
 The authors state that for all models they checked the distribution of residuals for normality as well as the variance inflation factors "to ensure the independence of predictors." We will do the same check here, as well as others (ex. homoscedasticity) for completeness.
 
-#### R50_model
-##### Preview the model
+::: {.callout-tip collapse="true"}
+### R50_model
+
+#### Preview the model
 
 ```{r}
 coef(R50_model)
 summary(R50_model)
 ```
 
-##### Check 1: Samples are independent
+#### Check 1: Samples are independent
 
-There is no overlap between the samples because they were collected from different, isolated geographic sites. There is no reason to believe that the samples overlap. 
+There is no overlap between the samples because they were collected from different, isolated geographic sites. There is no reason to believe that the samples overlap.
 
-##### Check 2: Homoscedasticity
+#### Check 2: Homoscedasticity
 
 ```{r}
 plot(fitted(R50_model), residuals(R50_model)) # module 15
@@ -153,20 +198,22 @@ plot(R50_model, which = 1)
 ```{r}
 plot(R50_model, 3) # scale-location (also in book of R but went to different sources for code)
 ```
+
 The first two plots (very similar) show that the residuals are scattered around 0 fairly randomly and that their spread around 0 appears pretty constant, indicating homoscedasticity. The horizontal line in the scale-location plot with equally and randomly spread out points also validates the assumption of homoscedasticity.
 
-##### Check 3: Linearity between co-variate and dependent variable
+#### Check 3: Linearity between co-variate and dependent variable
 
 We will use component-plus-residual plot analysis to confirm the linearity assumption is satisfied.
 
 ```{r}
 crPlots(R50_model) # Book of R p. 233 
 ```
-The first two plots for R50 and Wing_length_cm follow the linear trend well. 
+
+The first two plots for R50 and Wing_length_cm follow the linear trend well.
 
 note: The boxplots for Site can be used to assess homoscedasticity in addition to the tests we saw above. The plots are centered around 0 and have a relatively similar variance (though Washoe's variance appears larger, but the authors moved forward with their analysis so we will accept this), indicating homoscedasticity.
 
-##### Check 4: Normality
+#### Check 4: Normality
 
 ```{r}
 hist(R50_model$residuals)
@@ -175,14 +222,16 @@ hist(R50_model$residuals)
 ```{r}
 qqnorm(R50_model$residuals)
 ```
+
 The histogram of the residuals follows a normal distribution. The points in the Q-Q plot appear to fall mostly on a linear trend line, which also indicates normality (though there is is some trail-off at the ends, but we will accept that and move forward since the authors did).
 
 ```{r}
 shapiro.test(R50_model$residuals)
 ```
-The results of this test are non-significant (p > 0.05) so there is not evidence that this is a non-normal distribution.
 
-##### Check 5: Variance inflation factors (performed by authors)
+The results of this test are non-significant (p \> 0.05) so there is not evidence that this is a non-normal distribution.
+
+#### Check 5: Variance inflation factors (performed by authors)
 
 variance inflation factors were evaluated to ensure the independence of predictors
 
@@ -190,86 +239,98 @@ variance inflation factors were evaluated to ensure the independence of predicto
 vif(R50_model)
 vif(R50_model) > 10
 ```
-None of the variance inflation factors are greater than 10, so the variables are independent (the variables are not indicated to have a problem with multicollinearity (R in Action p .235))
 
-#### L50_model
-##### Preview the model
+None of the variance inflation factors are greater than 10, so the variables are independent (the variables are not indicated to have a problem with multicollinearity (R in Action p .235))
+:::
+
+::: {.callout-tip collapse="true"}
+### LR50_model
+
+#### Preview the model
 
 ```{r}
-coef(L50_model)
-summary(L50_model)
+coef(LR50_model)
+summary(LR50_model)
 ```
 
-##### Check 1: Samples are independent
+#### Check 1: Samples are independent
 
-There is no overlap between the samples because they were collected from different, isolated geographic sites. there is no reason to believe that the sample overlap. 
+There is no overlap between the samples because they were collected from different, isolated geographic sites. there is no reason to believe that the sample overlap.
 
-##### Check 2: Homoscedasticity
+#### Check 2: Homoscedasticity
 
 ```{r}
-plot(fitted(L50_model), residuals(L50_model)) # module 15
+plot(fitted(LR50_model), residuals(LR50_model)) # module 15
 abline(0,0)
 ```
 
 ```{r}
-plot(L50_model, which = 1)
+plot(LR50_model, which = 1)
 ```
 
 ```{r}
-plot(L50_model, 3) # scale-location (also in book of R but went to different sources for code)
+plot(LR50_model, 3) # scale-location (also in book of R but went to different sources for code)
 ```
+
 The first two plots (very similar) show that the residuals are scattered around 0 fairly randomly and that their spread around 0 appears pretty constant, indicating homoscedasticity. The horizontal line in the scale-location plot with equally and randomly spread out points also validates the assumption of homoscedasticity.
 
-##### Check 3: Linearity between co-variate and dependent variable
+#### Check 3: Linearity between co-variate and dependent variable
 
 We will use component-plus-residual plot analysis to confirm the linearity assumption is satisfied.
 
 ```{r}
-crPlots(L50_model) # Book of R p. 233 
+crPlots(LR50_model) # Book of R p. 233 
 ```
-The first two plots for R50 and Wing_length_cm follow the linear trend well. 
+
+The first two plots for R50 and Wing_length_cm follow the linear trend well.
 
 note: The boxplots for Site can be used to assess homoscedasticity in addition to the tests we saw above. The plots are centered around 0 and have a relatively similar variance (though Washoe's variance appears larger, but the authors moved forward with their analysis so we will accept this), indicating homoscedasticity.
 
-##### Check 4: Normality
+#### Check 4: Normality
 
 ```{r}
-hist(L50_model$residuals)
+hist(LR50_model$residuals)
 ```
 
 ```{r}
-qqnorm(L50_model$residuals)
+qqnorm(LR50_model$residuals)
 ```
+
 The histogram of the residuals follows a normal distribution. The points in the Q-Q plot appear to fall mostly on a linear trend line, which also indicates normality (though there is is some trail-off at the ends, but we will accept that and move forward since the authors did).
 
 ```{r}
-shapiro.test(L50_model$residuals)
+shapiro.test(LR50_model$residuals)
 ```
-The results of this test are non-significant (p > 0.05) so there is not evidence that this is a non-normal distribution.
 
-##### Check 5: Variance inflation factors (performed by authors)
+The results of this test are non-significant (p \> 0.05) so there is not evidence that this is a non-normal distribution.
+
+#### Check 5: Variance inflation factors (performed by authors)
 
 variance inflation factors were evaluated to ensure the independence of predictors
 
 ```{r}
-vif(L50_model)
-vif(L50_model) > 10
+vif(LR50_model)
+vif(LR50_model) > 10
 ```
-None of the variance inflation factors are greater than 10, so the variables are independent (the variables are not indicated to have a problem with multicollinearity (R in Action p .235))
 
-#### BR50_model
-##### Preview the model
+None of the variance inflation factors are greater than 10, so the variables are independent (the variables are not indicated to have a problem with multicollinearity (R in Action p .235))
+:::
+
+::: {.callout-tip collapse="true"}
+### BR50_model
+
+#### Preview the model
 
 ```{r}
 coef(BR50_model)
 summary(BR50_model)
 ```
 
-##### Check 1: Samples are independent
+#### Check 1: Samples are independent
 
-There is no overlap between the samples because they were collected from different, isolated geographic sites. there is no reason to believe that the sample overlap. 
+There is no overlap between the samples because they were collected from different, isolated geographic sites. there is no reason to believe that the sample overlap.
 
-##### Check 2: Homoscedasticity
+#### Check 2: Homoscedasticity
 
 ```{r}
 plot(fitted(BR50_model), residuals(BR50_model)) # module 15
@@ -283,20 +344,22 @@ plot(BR50_model, which = 1)
 ```{r}
 plot(BR50_model, 3) # scale-location (also in book of R but went to different sources for code)
 ```
+
 The first two plots (very similar) show that the residuals are scattered around 0 fairly randomly and that their spread around 0 appears pretty constant, indicating homoscedasticity. The horizontal line in the scale-location plot with equally and randomly spread out points also validates the assumption of homoscedasticity.
 
-##### Check 3: Linearity between co-variate and dependent variable
+#### Check 3: Linearity between co-variate and dependent variable
 
 We will use component-plus-residual plot analysis to confirm the linearity assumption is satisfied.
 
 ```{r}
 crPlots(BR50_model) # Book of R p. 233 
 ```
-The first two plots for R50 and Wing_length_cm follow the linear trend well. 
+
+The first two plots for R50 and Wing_length_cm follow the linear trend well.
 
 note: The boxplots for Site can be used to assess homoscedasticity in addition to the tests we saw above. The plots are centered around 0 and have a relatively similar variance (though Washoe's variance appears larger, but the authors moved forward with their analysis so we will accept this), indicating homoscedasticity.
 
-##### Check 4: Normality
+#### Check 4: Normality
 
 ```{r}
 hist(BR50_model$residuals)
@@ -305,14 +368,16 @@ hist(BR50_model$residuals)
 ```{r}
 qqnorm(BR50_model$residuals)
 ```
+
 The histogram of the residuals follows a normal distribution. The points in the Q-Q plot appear to fall mostly on a linear trend line, which also indicates normality (though there is is some trail-off at the ends, but we will accept that and move forward since the authors did).
 
 ```{r}
 shapiro.test(BR50_model$residuals)
 ```
-The results of this test are non-significant (p > 0.05) so there is not evidence that this is a non-normal distribution.
 
-##### Check 5: Variance inflation factors (performed by authors)
+The results of this test are non-significant (p \> 0.05) so there is not evidence that this is a non-normal distribution.
+
+#### Check 5: Variance inflation factors (performed by authors)
 
 variance inflation factors were evaluated to ensure the independence of predictors
 
@@ -320,26 +385,29 @@ variance inflation factors were evaluated to ensure the independence of predicto
 vif(BR50_model)
 vif(BR50_model) > 10
 ```
+
 None of the variance inflation factors are greater than 10, so the variables are independent (the variables are not indicated to have a problem with multicollinearity (R in Action p .235))
+:::
 
 **Now that we have checked our assumptions, let's proceed...**
 
-### ANCOVA 
+## ANCOVA
 
 ```{r}
 R50_anova <- anova(R50_model)
 
-L50_anova <- anova(L50_model)
+LR50_anova <- anova(LR50_model)
 
 BR50_anova <- anova(BR50_model)
 ```
 
-### Table 1
+## Table 1
 
-#### Table prep
+### Table prep
+
 ```{r}
 R50_anova_t1 <- R50_anova[rownames(R50_anova) != "Residuals",]
-L50_anova_t1 <- L50_anova[rownames(L50_anova) != "Residuals",]
+LR50_anova_t1 <- LR50_anova[rownames(LR50_anova) != "Residuals",]
 BR50_anova_t1 <- BR50_anova[rownames(BR50_anova) != "Residuals",]
 
 #  R50
@@ -352,16 +420,16 @@ table1_R50 <- data.frame(
 )
 colnames(table1_R50) <- c("F-value(Df)", "P-value")
 
-# L50
-p_format_L50 <- ifelse(L50_anova_t1$`Pr(>F)` < 0.001, "<0.001", round(L50_anova$`Pr(>F)`, 3))
+# LR50
+p_format_LR50 <- ifelse(LR50_anova_t1$`Pr(>F)` < 0.001, "<0.001", round(LR50_anova$`Pr(>F)`, 3))
 
-table1_L50 <- data.frame(
+table1_LR50 <- data.frame(
   row.names = c("Color variable", "Wing length", "Site"),
-  f_L50 = paste0(round(L50_anova_t1$`F value`, 2), "(", L50_anova_t1$Df, ")"),
-  p_L50 = p_format_L50
+  f_LR50 = paste0(round(LR50_anova_t1$`F value`, 1), "(", LR50_anova_t1$Df, ")"),
+  p_LR50 = p_format_LR50
 )
 
-colnames(table1_L50) <- c("F-value(Df)", "P-value")
+colnames(table1_LR50) <- c("F-value(Df)", "P-value")
 
 # BR50
 p_format_BR50 <- ifelse(BR50_anova_t1$`Pr(>F)` < 0.001, "<0.001", round(BR50_anova_t1$`Pr(>F)`, 2))
@@ -375,10 +443,11 @@ table1_BR50 <- data.frame(
 colnames(table1_BR50) <- c("F-value(Df)", "P-value")
 
 # Combine into one table
-table1_rep <-cbind(table1_R50, table1_L50, table1_BR50)
+table1_rep <-cbind(table1_R50, table1_LR50, table1_BR50)
 ```
 
-#### Define F-Stat function
+### Define F-stat function
+
 ```{r}
 # Fstat calc
 f_stat_sum <- function(anova) {
@@ -414,26 +483,28 @@ f_stat_sum <- function(anova) {
 }
 ```
 
-#### F-Stat calculation
+### F-Stat calculation
+
 ```{r}
-# Calculate F-statistics for the different models (R50, L50, BR50)
+# Calculate F-statistics for the different models (R50, LR50, BR50)
 sum_R50 <- f_stat_sum(R50_anova)
 
-sum_L50 <- f_stat_sum(L50_anova)
+sum_LR50 <- f_stat_sum(LR50_anova)
 
 sum_BR50 <- f_stat_sum(BR50_anova)
 
 ```
 
-#### Format the final Table 1 to hold these results
+### Format the final Table 1 to hold these results
+
 ```{r}
 # add a summary row for each model, degrees of freedom = 5,179 (R/L/BR50: 1 DF, Wing Length: 1 DF, Sites: 4-1 = 3 DF --> 1 + 1 + 3 = 5 DF (lower) & 185 (total individuals) - 1 - (1 + 1 + 3) = 179 DF (upper))
 table_sum <- data.frame(
   row.names = c(""),
   F_R50 = paste0("F(5,179)", " = " , sum_R50$F_statistic, "; ", "R-squared = ", sum_R50$R_squared, "; ", "P ", sum_R50$p_value),
   P_R50 = "",
-  F_L50 = paste0("F(5,179)", " = " , sum_L50$F_statistic, "; ", "R-squared = ", sum_L50$R_squared, "; ", "P ", sum_L50$p_value),
-  P_L50 = "",
+  F_LR50 = paste0("F(5,179)", " = " ,sum_LR50$F_statistic, "; ", "R-squared = ", sum_LR50$R_squared, "; ", "P ", sum_LR50$p_value),
+  P_LR50 = "",
   F_BR50 = paste0("F(5,179)", " = " , sum_BR50$F_statistic, "; ", "R-squared = ", sum_BR50$R_squared, "; ", "P ", sum_BR50$p_value),
   P_BR50 = ""
   )
@@ -446,24 +517,46 @@ table1_rep # print table so far
 ```
 
 Let's format the table to look a little nicer...
+
 ```{r}
-kbl(table1_rep) %>%
-  add_header_above(c(" " = 1, "Testes by R50 Model" = 2, "Testes by L50 Model" = 2, "Testes by BR50 Model" = 2)) # add blank header to match paper table (top left) + rest of header names
+Table1 <- kbl(table1_rep) %>%
+  add_header_above(c(" " = 1, "Testes by R50 Model" = 2, "Testes by LR50 Model" = 2, "Testes by BR50 Model" = 2)) # add blank header to match paper table (top left) + rest of header names
 ```
 
-**note: it is very complicated to add subscripts to the table, so I put the degrees of freedom in parentheses**
+## Original Table 1
 
-INCLUDE WHAT FSTAT means -\>\>\> interpretations
+![](img/Table1_original.png)
 
-## Inferential Statistical Test II: Post hoc comparisons with Tukey's honest significant difference (HSD) test (Figure 3a)
+## Replicated Table 1
 
-### Import data again (only Site and Testes Weight columns will be included)
 ```{r}
-f_male <- curl("https://raw.githubusercontent.com/sadams32/saadams-AN588-Replication/refs/heads/main/Espeset2021_AnEntSoc_1.csv") # male butterfly data (R50, L50, BR50, testes weight (mg))
+Table1
+```
+
+**note #1: it is very complicated to add subscripts to the table, so I put the degrees of freedom in parentheses**
+
+**note #2: this is not the figure I primarily focused on replicating so the formatting won't be a perfect match**
+
+The results of the original and replicated analyses are the same! Both versions show that including site and wing length improved the explanatory power of all the models than had just the color variables alone been included.
+
+------------------------------------------------------------------------
+
+# INFERENTIAL STATISTICAL TEST II ---
+
+#### Figure 3a - post hoc comparisons with Tukey's HSD test
+
+We're going to Figure 3a to summarize within and among population variation (among the 4 sites) in testes weight (mg). First we'll run an ANOVA and then perform post hoc Tukey honest significant difference (HSD) tests to determine if there are differences between the sites.
+
+## Import data again
+
+Only Site and Testes Weight columns will be included
+
+```{r}
+f_male <- curl("https://raw.githubusercontent.com/sadams32/saadams-AN588-Replication/refs/heads/main/Espeset2021_AnEntSoc_1.csv") # male butterfly data (R50, LR50, BR50, testes weight (mg))
 d_male_3a <- read.csv(f_male, header = TRUE, sep = ",", stringsAsFactors = TRUE) # read in data
 
 d_male_3a <- d_male_3a %>%
-  select(Site, TestesWeight) # excludes R50, L50, BR50, and Wing Length columns
+  select(Site, TestesWeight) # excludes R50, LR50, BR50, and Wing Length columns
   
 colnames(d_male_3a) <- c("Site", "Testes_Weight_mg") # rename column names
 
@@ -480,25 +573,28 @@ d_male_3a <- na.omit(d_male_3a) # omit "NA" entries
 head(d_male_3a) # preview
 ```
 
-### Defining the Model
+## Defining the Model
+
 ```{r}
 model_3a <- lm(Testes_Weight_mg ~ Site, data = d_male_3a) # testes weight related to site
 ```
 
-### ANOVA Assumption Check
+## ANOVA Assumption Check
+
 The authors state that for all models they checked the distribution of residuals for normality as well as the variance inflation factors "to ensure the independence of predictors." We will do the same check here, as well as others (ex. homoscedasticity) for completeness.
 
-#### Preview the model
+### Preview the model
+
 ```{r}
 coef(model_3a) # coefficients
 summary(model_3a) # summary
 ```
 
-#### Check 1: Samples are independent
+### Check 1: Samples are independent
 
-There is no overlap between the samples because they were collected from different, isolated geographic sites. There is no reason to believe that the samples overlap. 
+There is no overlap between the samples because they were collected from different, isolated geographic sites. There is no reason to believe that the samples overlap.
 
-#### Check 2: Homoscedasticity
+### Check 2: Homoscedasticity
 
 ```{r}
 sds_3a <- summarize(group_by(d_male_3a, Site), sd(Testes_Weight_mg)) # calculate standard deviations of testes weight goruped by site
@@ -508,7 +604,7 @@ max(sds_3a$`sd(Testes_Weight_mg)`)/min(sds_3a$`sd(Testes_Weight_mg)`) # ratio of
 
 The variances appear to be relatively equal because the ratio of max/min is less than 2. This indicates that the assumption of homoscedasticity is met.
 
-#### Check 3: Normality
+### Check 3: Normality
 
 ```{r}
 hist(model_3a$residuals) # histogram of residuals
@@ -524,9 +620,11 @@ The histogram of the residuals follows a pretty normal distribution. The points 
 s <- shapiro.test(model_3a$residuals) # Shapiro Test for residuals
 s
 ```
-The results of this test are non-significant (p > 0.05) so there is not evidence that this is a non-normal distribution.
 
-### ANOVA and Tukey's HSD
+The results of this test are non-significant (p \> 0.05) so there is not evidence that this is a non-normal distribution.
+
+## ANOVA and Tukey's HSD
+
 ```{r}
 # ANOVA
 anova_3a <- aov(Testes_Weight_mg ~ Site, data = d_male_3a) # testes weight as function of explanatory variable (site)
@@ -535,9 +633,11 @@ anova_3a <- aov(Testes_Weight_mg ~ Site, data = d_male_3a) # testes weight as fu
 tukey_3a <- TukeyHSD(anova_3a, "Site", conf.level = 0.95) # 
 print(tukey_3a) # preview significance results (will assign letters manually)
 ```
-Based on these results, Sutter and Davis are the only sites that are not statistically different (p > 0.05) and will then be assigned the same letter.
 
-### Plot Prep
+Based on these results, Sutter and Davis are the only sites that are not statistically different (p \> 0.05) and so will be assigned the same letter in Figure 3a.
+
+## Plot Prep
+
 ```{r}
 # Based on Tukey results (above), manually assign letter comparisons
 letter_manual <- c("Davis" = "a", "Sutter" = "a", "Washoe" = "b", "Reno" = "c") 
@@ -563,7 +663,8 @@ site_colors <- c("Davis" = "darkolivegreen3", "Sutter" = "seagreen4", "Washoe" =
 site_shapes <- c("Davis" = 15, "Sutter" = 15, "Washoe" = 16, "Reno" = 16) # assign shapes by site to match paper (15 = square, 16 = circle)
 ```
 
-### Plot
+## Plot
+
 ```{r}
 Figure_3a <- ggplot() + 
   geom_jitter(data = d_male_3a, 
@@ -572,13 +673,13 @@ Figure_3a <- ggplot() +
   geom_errorbar(data = table_3a, 
         aes(x = Site, ymin = lower, ymax = upper), 
         width = 0.2,
-        linewidth = 1.1) +
+        linewidth = 1) +
   geom_text(data = table_3a, 
         aes(x = Site, y = 0.6, label = letters), 
-        size = 6, vjust = 0) +
+        size = 4, vjust = 0) +
   geom_point(data = table_3a, 
         aes(x = Site, y = mean)) +
-    annotate("text", x = 4.5, y = 0.65, label = "A", size = 7) +
+    annotate("text", x = 4.5, y = 0.65, label = "A", size = 4.5) +
   labs(title = "Testes Weight by Site", x = NULL, y = "Testes Weight (mg)") + 
   scale_color_manual(values = site_colors) +
   scale_shape_manual(values = site_shapes) +
@@ -587,20 +688,43 @@ Figure_3a <- ggplot() +
   theme(legend.position = "none",
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
-        axis.text = element_text(size = 14, color = "black"),
-        axis.title = element_text(size = 14),
-        plot.title = element_text(face = "bold", hjust = 0.5))
+        axis.text = element_text(size = 10, color = "black"),
+        axis.title = element_text(size = 11),
+        plot.title = element_text(face = "bold", hjust = 0.5, size = 12))
 
-ggsave("Figure_3a.png", plot = Figure_3a, width = 9, height = 4)
+ggsave("Figure_3a_rep.png", plot = Figure_3a, width = 5.5, height = 3, path = "/Users/sylvieadams/RWork/BI588/saadams-AN588-Replication/img")
 ```
 
-Citation
-https://www.youtube.com/watch?v=Pc1RVwEIT5k (letter tests)
-https://www.sthda.com/english/wiki/ggplot2-point-shapes (ggplot point shapes)
-https://www.rdocumentation.org/packages/ggplot2/versions/0.9.0/topics/ggsave (ggsave for plot, adjust height and width)
+## Original Figure 3A
 
-Book of R around page 585 (help with checks + moduels for anova and ancova)
-https://godatadrive.com/blog/basic-guide-to-test-assumptions-of-linear-regression-in-r (equal spread of points/variances are equal check)
-p.235 R in action for vairnance inflation 
+![](img/Figure_3a_original.png)
+
+## Replicated Figure 3a
+
+![](img/Figure_3a_rep.png) The replicated and original figures both show the same results: testes weight in the sites Davis and Sutter was the smallest and not statistically different between the sites, testes weight was then significantly larger in Reno, and testes weight was the largest in Washoe (statistically significant).
+
+------------------------------------------------------------------------
+
+# References ---
+
+https://www.youtube.com/watch?v=Pc1RVwEIT5k
+
+https://www.sthda.com/english/wiki/ggplot2-point-shapes
+
+https://www.rdocumentation.org/packages/ggplot2/versions/0.9.0/topics/ggsave
+
+https://nostarch.com/bookofr
+
+https://www.manning.com/books/r-in-action
+
+https://godatadrive.com/blog/basic-guide-to-test-assumptions-of-linear-regression-in-r
 
 https://library.virginia.edu/data/articles/diagnostic-plots
+
+https://bioone-org.ezproxy.bu.edu/journals/annals-of-the-entomological-society-of-america/volume-115/issue-2/saab042/In%20Search%20of%20an%20Honest%20Butterfly:%20Sexually%20Selected%20Wing%20Coloration%20and%20Reproductive%20Traits%20From%20Wild%20Populations%20of%20the%20Cabbage%20White%20Butterfly/10.1093/aesa/saab042.full
+
+https://cropscience.bayer.co.uk/agronomy-id/pest-and-slugs/large-cabbage-white
+
+https://wisconsinbutterflies.org/a/species/36/full/cabbage-white.jpg
+
+https://www.delawarenaturesociety.org/wp-content/uploads/2023/04/Cabbage-White-edited.jpg

@@ -1,0 +1,1909 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Analysis Replication Assignment</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="saadams_ReplicationCode_files/libs/clipboard/clipboard.min.js"></script>
+<script src="saadams_ReplicationCode_files/libs/quarto-html/quarto.js"></script>
+<script src="saadams_ReplicationCode_files/libs/quarto-html/popper.min.js"></script>
+<script src="saadams_ReplicationCode_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="saadams_ReplicationCode_files/libs/quarto-html/anchor.min.js"></script>
+<link href="saadams_ReplicationCode_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="saadams_ReplicationCode_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="saadams_ReplicationCode_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="saadams_ReplicationCode_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="saadams_ReplicationCode_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="saadams_ReplicationCode_files/libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="saadams_ReplicationCode_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#in-search-of-an-honest-butterfly" id="toc-in-search-of-an-honest-butterfly" class="nav-link active" data-scroll-target="#in-search-of-an-honest-butterfly">In Search of an Honest Butterfly</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">INTRODUCTION —</a>
+  <ul>
+  <li><a href="#study-description" id="toc-study-description" class="nav-link" data-scroll-target="#study-description">Study Description</a></li>
+  <li><a href="#replication-plan" id="toc-replication-plan" class="nav-link" data-scroll-target="#replication-plan">Replication Plan</a></li>
+  <li><a href="#notes" id="toc-notes" class="nav-link" data-scroll-target="#notes">Notes</a></li>
+  </ul></li>
+  <li><a href="#getting-started" id="toc-getting-started" class="nav-link" data-scroll-target="#getting-started">GETTING STARTED —</a>
+  <ul>
+  <li><a href="#load-packages" id="toc-load-packages" class="nav-link" data-scroll-target="#load-packages">Load Packages</a></li>
+  <li><a href="#load-and-clean-data" id="toc-load-and-clean-data" class="nav-link" data-scroll-target="#load-and-clean-data">Load and Clean Data</a>
+  <ul>
+  <li><a href="#males" id="toc-males" class="nav-link" data-scroll-target="#males">Males</a></li>
+  <li><a href="#females" id="toc-females" class="nav-link" data-scroll-target="#females">Females</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#descriptive-statistical-test" id="toc-descriptive-statistical-test" class="nav-link" data-scroll-target="#descriptive-statistical-test">DESCRIPTIVE STATISTICAL TEST —</a>
+  <ul>
+  <li><a href="#male-summary-statistics" id="toc-male-summary-statistics" class="nav-link" data-scroll-target="#male-summary-statistics">Male Summary Statistics</a></li>
+  <li><a href="#female-summary-statistics" id="toc-female-summary-statistics" class="nav-link" data-scroll-target="#female-summary-statistics">Female Summary Statistics</a></li>
+  </ul></li>
+  <li><a href="#inferential-statistical-test-i" id="toc-inferential-statistical-test-i" class="nav-link" data-scroll-target="#inferential-statistical-test-i">INFERENTIAL STATISTICAL TEST I —</a>
+  <ul>
+  <li><a href="#table-1---ancova" id="toc-table-1---ancova" class="nav-link" data-scroll-target="#table-1---ancova">Table 1 - ANCOVA</a></li>
+  <li><a href="#defining-the-models" id="toc-defining-the-models" class="nav-link" data-scroll-target="#defining-the-models">Defining the Models</a></li>
+  <li><a href="#ancova-assumption-checks" id="toc-ancova-assumption-checks" class="nav-link" data-scroll-target="#ancova-assumption-checks">ANCOVA Assumption Checks</a></li>
+  <li><a href="#ancova" id="toc-ancova" class="nav-link" data-scroll-target="#ancova">ANCOVA</a></li>
+  <li><a href="#table-1" id="toc-table-1" class="nav-link" data-scroll-target="#table-1">Table 1</a>
+  <ul>
+  <li><a href="#table-prep" id="toc-table-prep" class="nav-link" data-scroll-target="#table-prep">Table prep</a></li>
+  <li><a href="#define-f-stat-function" id="toc-define-f-stat-function" class="nav-link" data-scroll-target="#define-f-stat-function">Define F-stat function</a></li>
+  <li><a href="#f-stat-calculation" id="toc-f-stat-calculation" class="nav-link" data-scroll-target="#f-stat-calculation">F-Stat calculation</a></li>
+  <li><a href="#format-the-final-table-1-to-hold-these-results" id="toc-format-the-final-table-1-to-hold-these-results" class="nav-link" data-scroll-target="#format-the-final-table-1-to-hold-these-results">Format the final Table 1 to hold these results</a></li>
+  </ul></li>
+  <li><a href="#original-table-1" id="toc-original-table-1" class="nav-link" data-scroll-target="#original-table-1">Original Table 1</a></li>
+  <li><a href="#replicated-table-1" id="toc-replicated-table-1" class="nav-link" data-scroll-target="#replicated-table-1">Replicated Table 1</a></li>
+  </ul></li>
+  <li><a href="#inferential-statistical-test-ii" id="toc-inferential-statistical-test-ii" class="nav-link" data-scroll-target="#inferential-statistical-test-ii">INFERENTIAL STATISTICAL TEST II —</a>
+  <ul>
+  <li><a href="#figure-3a---post-hoc-comparisons-with-tukeys-hsd-test" id="toc-figure-3a---post-hoc-comparisons-with-tukeys-hsd-test" class="nav-link" data-scroll-target="#figure-3a---post-hoc-comparisons-with-tukeys-hsd-test">Figure 3a - post hoc comparisons with Tukey’s HSD test</a></li>
+  <li><a href="#import-data-again" id="toc-import-data-again" class="nav-link" data-scroll-target="#import-data-again">Import data again</a></li>
+  <li><a href="#defining-the-model" id="toc-defining-the-model" class="nav-link" data-scroll-target="#defining-the-model">Defining the Model</a></li>
+  <li><a href="#anova-assumption-check" id="toc-anova-assumption-check" class="nav-link" data-scroll-target="#anova-assumption-check">ANOVA Assumption Check</a>
+  <ul>
+  <li><a href="#preview-the-model-3" id="toc-preview-the-model-3" class="nav-link" data-scroll-target="#preview-the-model-3">Preview the model</a></li>
+  <li><a href="#check-1-samples-are-independent-3" id="toc-check-1-samples-are-independent-3" class="nav-link" data-scroll-target="#check-1-samples-are-independent-3">Check 1: Samples are independent</a></li>
+  <li><a href="#check-2-homoscedasticity-3" id="toc-check-2-homoscedasticity-3" class="nav-link" data-scroll-target="#check-2-homoscedasticity-3">Check 2: Homoscedasticity</a></li>
+  <li><a href="#check-3-normality" id="toc-check-3-normality" class="nav-link" data-scroll-target="#check-3-normality">Check 3: Normality</a></li>
+  </ul></li>
+  <li><a href="#anova-and-tukeys-hsd" id="toc-anova-and-tukeys-hsd" class="nav-link" data-scroll-target="#anova-and-tukeys-hsd">ANOVA and Tukey’s HSD</a></li>
+  <li><a href="#plot-prep" id="toc-plot-prep" class="nav-link" data-scroll-target="#plot-prep">Plot Prep</a></li>
+  <li><a href="#plot" id="toc-plot" class="nav-link" data-scroll-target="#plot">Plot</a></li>
+  <li><a href="#original-figure-3a" id="toc-original-figure-3a" class="nav-link" data-scroll-target="#original-figure-3a">Original Figure 3A</a></li>
+  <li><a href="#replicated-figure-3a" id="toc-replicated-figure-3a" class="nav-link" data-scroll-target="#replicated-figure-3a">Replicated Figure 3a</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References —</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Analysis Replication Assignment</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="in-search-of-an-honest-butterfly" class="level2">
+<h2 class="anchored" data-anchor-id="in-search-of-an-honest-butterfly">In Search of an Honest Butterfly</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/cabbage.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
+<hr>
+</section>
+<section id="introduction" class="level1">
+<h1>INTRODUCTION —</h1>
+<section id="study-description" class="level2">
+<h2 class="anchored" data-anchor-id="study-description">Study Description</h2>
+<p>In the paper “In Search of an Honest Butterfly: Sexually Selected Wing Coloration and Reproductive Traits From Wild Populations of the Cabbage White Butterfly (2021), the authors Anne E. Espeset and Matthew L. Forister describe their investigation of <strong>Pieris rapae</strong> (cabbage white butterfly). Specifically, these researchers tied to determine whether wing coloration functions as an honest signal of male reproductive quality, as indicated by testes size. Butterfly data was collected from four field sites (two in California (Davis and Sutter) and two in Nevada (UNR/Reno and Washoe)) which varied in agricultural use. The following data were collected from male specimens, organized by site: colorimetric variables: R50 (associated with brightness; average % reflectance between 300–375 and 450–550 nm), LR50 (associated with hue; associated wavelength to R50), and BR50 (associated with saturation; the slope of the line tangent to the point at R50); Testes Weight (mg), and Wing Length (cm). Data collected from female butterflies, also organized by site, included only the spermatophore count.</p>
+<p>The authors outlined three hypotheses that guided their study:</p>
+<ol type="1">
+<li><p>Does wing coloration predict tests size? Since larger testes indicate a higher likelihood to produce offspring in this species, this is an important reproductive trait.</p></li>
+<li><p>Do wing coloration and reproductive traits vary across populations with different environmental conditions (whether a site is more natural or agricultural)?</p></li>
+<li><p>Does spermatophore count (as a proxy for mating frequency) differ between study sites?</p></li>
+</ol>
+<p>The authors included the following analyses:</p>
+<ul>
+<li><p>Linear models predicting testes weight (mg) based on colorimetric variables (R50, LR50, and BR50), wing length (cm), and site (ANCOVA)</p></li>
+<li><p>Site comparisons for testes weight and color variables</p></li>
+<li><p>Tukey’s HSD for post hoc tests for testes weight, colorimetrics, spermatophore count, and slope (testes weight by color) by site</p></li>
+</ul>
+</section>
+<section id="replication-plan" class="level2">
+<h2 class="anchored" data-anchor-id="replication-plan">Replication Plan</h2>
+<ol type="1">
+<li><p>Load and clean male (Espeset2021_AnEntSoc_1) and female (Espeset2021_AnEntSoc_2) datasets.</p></li>
+<li><p>Summarize male and female data variables with means and standard deviations. These summaries are not explicitly written in the paper, but I was told by Dr.&nbsp;Schmitt to work under the assumption that these had been performed.</p></li>
+<li><p>Replicate Table 1, which summarizes the analysis of colorimetric variables as significant predictors for testes weight with linear models that include wing length as a covariate and site as a categorical predictor. I will perform an ANCOVA and calculate F-statistics and P-values for each colorimetric model. The authors write that the colorimetric variables (R50, LR50, and BR50) were highly correlated so three linear models were run.</p></li>
+<li><p>Replicate Figure 3a, which summarizes within and among population variation (by site) in testes weight. Tukey HSD tests will be run to determine if there are differences between populations.</p></li>
+</ol>
+</section>
+<section id="notes" class="level2">
+<h2 class="anchored" data-anchor-id="notes">Notes</h2>
+<p>As in many papers, the step-by-step statistical methods are not outline transparently. For example, the authors explain that they checked the linear models for normality and examined variance inflation factors to determine the independence of predictors. My analysis will check these assumptions as well as others to hopefully replicate a process that way not explicitly written.</p>
+<p>Another aspect of this paper that is worth noting is the discrepancy in reporting subject counts. For example, the authors write in the body of the text that they caught and process 367 individuals from the fours sites, but then go on to break down the counts per male and female per site which add up to 371 individuals. Further adding to the confusion, the datasets provided only contain data for 364 butterflies. The authors may have excluded individuals and not reported it. This replication analysis will move forward with the data and counts in the datasets.</p>
+<hr>
+</section>
+</section>
+<section id="getting-started" class="level1">
+<h1>GETTING STARTED —</h1>
+<section id="load-packages" class="level2">
+<h2 class="anchored" data-anchor-id="load-packages">Load Packages</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(curl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Using libcurl 8.11.1 with OpenSSL/3.3.2 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+✔ purrr     1.0.2     </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter()     masks stats::filter()
+✖ dplyr::lag()        masks stats::lag()
+✖ readr::parse_date() masks curl::parse_date()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: carData
+
+Attaching package: 'car'
+
+The following object is masked from 'package:dplyr':
+
+    recode
+
+The following object is masked from 'package:purrr':
+
+    some</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'gridExtra'
+
+The following object is masked from 'package:dplyr':
+
+    combine</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'kableExtra'
+
+The following object is masked from 'package:dplyr':
+
+    group_rows</code></pre>
+</div>
+</div>
+</section>
+<section id="load-and-clean-data" class="level2">
+<h2 class="anchored" data-anchor-id="load-and-clean-data">Load and Clean Data</h2>
+<p>In summary, midpoint (R50, associated with brightness) was the average percent reflectance between 300–375 and 450–550 nm; LR50, associated with hue, was calculated as the associated wavelength to R50; and BR50, associated with saturation, was calculated by finding the slope of the line tangent to the point at R50.</p>
+<section id="males" class="level3">
+<h3 class="anchored" data-anchor-id="males">Males</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>f_male <span class="ot">&lt;-</span> <span class="fu">curl</span>(<span class="st">"https://raw.githubusercontent.com/sadams32/saadams-AN588-Replication/refs/heads/main/Espeset2021_AnEntSoc_1.csv"</span>) <span class="co"># male butterfly data (R50, LR50, BR50, testes weight (mg), wing length (cm))</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>d_male <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(f_male, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">","</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>) <span class="co"># read in data</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(d_male) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Site"</span>, <span class="st">"R50"</span>, <span class="st">"LR50"</span>, <span class="st">"BR50"</span>, <span class="st">"Testes_Weight_mg"</span>, <span class="st">"Wing_Length_cm"</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>d_male<span class="sc">$</span>Site <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(d_male<span class="sc">$</span>Site) <span class="co"># convert vector to factor</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>d_male <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(d_male) <span class="co"># omit "NA" entries</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(d_male) <span class="co"># preview</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Site      R50   LR50     BR50 Testes_Weight_mg Wing_Length_cm
+1 Davis 39.62036 427.04 1.908893            0.244          2.200
+2 Davis 43.62683 426.32 2.181375            0.146          2.352
+3 Davis 35.88418 427.39 1.659452            0.314          2.417
+4 Davis 37.56685 426.32 1.901168            0.152          2.318
+5 Davis 43.35655 425.25 2.090074            0.081          2.151
+6 Davis 34.30737 425.25 1.800922            0.087          2.208</code></pre>
+</div>
+</div>
+</section>
+<section id="females" class="level3">
+<h3 class="anchored" data-anchor-id="females">Females</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>f_female <span class="ot">&lt;-</span> <span class="fu">curl</span>(<span class="st">"https://raw.githubusercontent.com/sadams32/saadams-AN588-Replication/refs/heads/main/Espeset2021_AnEntSoc_2.csv"</span>) <span class="co"># female butterfly data (spermatophore counts)</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>d_female <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(f_female, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">","</span>, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>) <span class="co"># read in data</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(d_female) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Site"</span>, <span class="st">"Sperm_Count"</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>d_female<span class="sc">$</span>Site <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(d_female<span class="sc">$</span>Site) <span class="co"># convert vector to factor</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>d_female <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(d_female) <span class="co"># omit "NA" entries</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(d_female) <span class="co"># preview</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Site Sperm_Count
+1 Davis           3
+2 Davis           1
+3 Davis           1
+4 Davis           1
+5 Davis           2
+6 Davis           1</code></pre>
+</div>
+</div>
+<hr>
+</section>
+</section>
+</section>
+<section id="descriptive-statistical-test" class="level1">
+<h1>DESCRIPTIVE STATISTICAL TEST —</h1>
+<p>Summary of male and female data variables with means and standard deviations.</p>
+<section id="male-summary-statistics" class="level2">
+<h2 class="anchored" data-anchor-id="male-summary-statistics">Male Summary Statistics</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>summary_male <span class="ot">&lt;-</span> d_male <span class="sc">%&gt;%</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Site) <span class="sc">%&gt;%</span> <span class="co"># sort results by site (ex. one row is the summary stats of the "Davis site")</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">R50_mean =</span> <span class="fu">round</span>(<span class="fu">mean</span>(R50), <span class="dv">3</span>), <span class="co"># mean of R50, rounded to 3 decimal places (same operation for other means)</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">R50_sd =</span> <span class="fu">round</span>(<span class="fu">sd</span>(R50), <span class="dv">3</span>), <span class="co"># standard deviation (sd) of R50, rounded to 3 decimal places (same operation for other SDs)</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">LR50_mean =</span> <span class="fu">round</span>(<span class="fu">mean</span>(LR50), <span class="dv">3</span>), </span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">LR50_sd =</span> <span class="fu">round</span>(<span class="fu">sd</span>(LR50), <span class="dv">3</span>),</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">BR50_mean =</span> <span class="fu">round</span>(<span class="fu">mean</span>(BR50), <span class="dv">3</span>),</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">BR50_sd =</span> <span class="fu">round</span>(<span class="fu">sd</span>(BR50), <span class="dv">3</span>),</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">Testes_Weight_mg_mean =</span> <span class="fu">round</span>(<span class="fu">mean</span>(Testes_Weight_mg), <span class="dv">3</span>),</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">Testes_Weight_mg_sd =</span> <span class="fu">round</span>(<span class="fu">sd</span>(Testes_Weight_mg), <span class="dv">3</span>),</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">Wing_Length_cm_mean =</span> <span class="fu">round</span>(<span class="fu">mean</span>(Wing_Length_cm), <span class="dv">3</span>),</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">Wing_Length_cm_sd =</span> <span class="fu">round</span>(<span class="fu">sd</span>(Wing_Length_cm), <span class="dv">3</span>))</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>summary_male <span class="sc">%&gt;%</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">digits =</span> <span class="dv">3</span>, <span class="at">caption =</span> <span class="st">"Summary Statistics by Site - Male Butterflies"</span>) <span class="co"># make table with 3 decimal places</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>Summary Statistics by Site - Male Butterflies</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Site</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">n</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">R50_mean</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">R50_sd</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">LR50_mean</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">LR50_sd</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">BR50_mean</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">BR50_sd</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Testes_Weight_mg_mean</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Testes_Weight_mg_sd</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Wing_Length_cm_mean</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Wing_Length_cm_sd</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Davis</td>
+<td style="text-align: right;">56</td>
+<td style="text-align: right;">41.035</td>
+<td style="text-align: right;">6.188</td>
+<td style="text-align: right;">427.113</td>
+<td style="text-align: right;">2.006</td>
+<td style="text-align: right;">2.089</td>
+<td style="text-align: right;">0.281</td>
+<td style="text-align: right;">0.222</td>
+<td style="text-align: right;">0.090</td>
+<td style="text-align: right;">2.424</td>
+<td style="text-align: right;">0.176</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sutter</td>
+<td style="text-align: right;">43</td>
+<td style="text-align: right;">42.696</td>
+<td style="text-align: right;">5.472</td>
+<td style="text-align: right;">426.647</td>
+<td style="text-align: right;">1.976</td>
+<td style="text-align: right;">2.169</td>
+<td style="text-align: right;">0.255</td>
+<td style="text-align: right;">0.188</td>
+<td style="text-align: right;">0.066</td>
+<td style="text-align: right;">2.216</td>
+<td style="text-align: right;">0.116</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UNR</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">41.971</td>
+<td style="text-align: right;">5.356</td>
+<td style="text-align: right;">427.135</td>
+<td style="text-align: right;">1.864</td>
+<td style="text-align: right;">2.107</td>
+<td style="text-align: right;">0.264</td>
+<td style="text-align: right;">0.259</td>
+<td style="text-align: right;">0.077</td>
+<td style="text-align: right;">2.434</td>
+<td style="text-align: right;">0.094</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Washoe</td>
+<td style="text-align: right;">46</td>
+<td style="text-align: right;">44.562</td>
+<td style="text-align: right;">6.306</td>
+<td style="text-align: right;">427.185</td>
+<td style="text-align: right;">1.684</td>
+<td style="text-align: right;">2.195</td>
+<td style="text-align: right;">0.311</td>
+<td style="text-align: right;">0.313</td>
+<td style="text-align: right;">0.103</td>
+<td style="text-align: right;">2.439</td>
+<td style="text-align: right;">0.082</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</section>
+<section id="female-summary-statistics" class="level2">
+<h2 class="anchored" data-anchor-id="female-summary-statistics">Female Summary Statistics</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>summary_female <span class="ot">&lt;-</span> d_female <span class="sc">%&gt;%</span> <span class="co"># make tibble for summary statistics of female butterflies</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Site) <span class="sc">%&gt;%</span> <span class="co"># sort results by site (ex. one row is the summary stats of the "Davis site")</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">Sperm_Count_mean =</span> <span class="fu">round</span>(<span class="fu">mean</span>(Sperm_Count), <span class="dv">3</span>), <span class="co"># mean of spermatophore count, rounded to 3 decimal places</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">Sperm_Count_sd =</span> <span class="fu">round</span>(<span class="fu">sd</span>(Sperm_Count), <span class="dv">3</span>)) <span class="co"># standard deviation (sd) of spermatophore count, rounded to 3 decimal places</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>summary_female <span class="sc">%&gt;%</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">digits =</span> <span class="dv">3</span>, <span class="at">caption =</span> <span class="st">"Summary Statistics by Site - Female Butterflies"</span>) <span class="co"># make table with 3 decimal places</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>Summary Statistics by Site - Female Butterflies</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Site</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">n</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Sperm_Count_mean</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Sperm_Count_sd</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Davis</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">1.577</td>
+<td style="text-align: right;">0.703</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sutter</td>
+<td style="text-align: right;">43</td>
+<td style="text-align: right;">1.442</td>
+<td style="text-align: right;">0.666</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UNR</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">1.308</td>
+<td style="text-align: right;">0.618</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Washoe</td>
+<td style="text-align: right;">29</td>
+<td style="text-align: right;">1.379</td>
+<td style="text-align: right;">0.622</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="inferential-statistical-test-i" class="level1">
+<h1>INFERENTIAL STATISTICAL TEST I —</h1>
+<section id="table-1---ancova" class="level4">
+<h4 class="anchored" data-anchor-id="table-1---ancova">Table 1 - ANCOVA</h4>
+<p>To replicate Table 1 we’ll analyze colorimetric variables as significant predictors for testes weight with linear models that include wing length as a covariate and site as a categorical predictor. We’re going to conduct an ANCOVA and calculate F-statistics and P-values for each colorimetric model (R50, LR50, and BR50).</p>
+</section>
+<section id="defining-the-models" class="level2">
+<h2 class="anchored" data-anchor-id="defining-the-models">Defining the Models</h2>
+<p><strong>note: experimenters appear to Type I regression, even though Type II could have been used. When I tried to use Type II (the type of regression was not specified by the authors) the results were not replicated from the text. When Type I is used, the results (see Table 1) are replicated exactly.</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>R50_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Testes_Weight_mg <span class="sc">~</span> R50 <span class="sc">+</span> Wing_Length_cm <span class="sc">+</span> Site, <span class="at">data =</span> d_male) <span class="co">#Y ~ X1 + X2 + X3</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>LR50_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Testes_Weight_mg <span class="sc">~</span> LR50 <span class="sc">+</span> Wing_Length_cm <span class="sc">+</span> Site, <span class="at">data =</span> d_male) <span class="co">#Y ~ X1 + X2 + X3</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>BR50_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Testes_Weight_mg <span class="sc">~</span> BR50 <span class="sc">+</span> Wing_Length_cm <span class="sc">+</span> Site, <span class="at">data =</span> d_male) <span class="co">#Y ~ X1 + X2 + X3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="ancova-assumption-checks" class="level2">
+<h2 class="anchored" data-anchor-id="ancova-assumption-checks">ANCOVA Assumption Checks</h2>
+<p>The authors state that for all models they checked the distribution of residuals for normality as well as the variance inflation factors “to ensure the independence of predictors.” We will do the same check here, as well as others (ex. homoscedasticity) for completeness.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+R50_model
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<section id="preview-the-model" class="level4">
+<h4 class="anchored" data-anchor-id="preview-the-model">Preview the model</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(R50_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   (Intercept)            R50 Wing_Length_cm     SiteSutter        SiteUNR 
+  -0.268270840    0.002029305    0.168108451   -0.003128321    0.032664822 
+    SiteWashoe 
+   0.080408052 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(R50_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Testes_Weight_mg ~ R50 + Wing_Length_cm + Site, 
+    data = d_male)
+
+Residuals:
+      Min        1Q    Median        3Q       Max 
+-0.219960 -0.054541 -0.001643  0.054630  0.221808 
+
+Coefficients:
+                Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)    -0.268271   0.129088  -2.078 0.039117 *  
+R50             0.002029   0.001053   1.927 0.055555 .  
+Wing_Length_cm  0.168108   0.048796   3.445 0.000711 ***
+SiteSutter     -0.003128   0.019706  -0.159 0.874044    
+SiteUNR         0.032665   0.017264   1.892 0.060102 .  
+SiteWashoe      0.080408   0.016996   4.731 4.52e-06 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.08321 on 179 degrees of freedom
+Multiple R-squared:  0.2829,    Adjusted R-squared:  0.2629 
+F-statistic: 14.13 on 5 and 179 DF,  p-value: 1.205e-11</code></pre>
+</div>
+</div>
+</section>
+<section id="check-1-samples-are-independent" class="level4">
+<h4 class="anchored" data-anchor-id="check-1-samples-are-independent">Check 1: Samples are independent</h4>
+<p>There is no overlap between the samples because they were collected from different, isolated geographic sites. There is no reason to believe that the samples overlap.</p>
+</section>
+<section id="check-2-homoscedasticity" class="level4">
+<h4 class="anchored" data-anchor-id="check-2-homoscedasticity">Check 2: Homoscedasticity</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted</span>(R50_model), <span class="fu">residuals</span>(R50_model)) <span class="co"># module 15</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="saadams_ReplicationCode_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(R50_model, <span class="at">which =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="saadams_ReplicationCode_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(R50_model, <span class="dv">3</span>) <span class="co"># scale-location (also in book of R but went to different sources for code)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="saadams_ReplicationCode_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The first two plots (very similar) show that the residuals are scattered around 0 fairly randomly and that their spread around 0 appears pretty constant, indicating homoscedasticity. The horizontal line in the scale-location plot with equally and randomly spread out points also validates the assumption of homoscedasticity.</p>
+</section>
+<section id="check-3-linearity-between-co-variate-and-dependent-variable" class="level4">
+<h4 class="anchored" data-anchor-id="check-3-linearity-between-co-variate-and-dependent-variable">Check 3: Linearity between co-variate and dependent variable</h4>
+<p>We will use component-plus-residual plot analysis to confirm the linearity assumption is satisfied.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">crPlots</span>(R50_model) <span class="co"># Book of R p. 233 </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="saadams_ReplicationCode_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The first two plots for R50 and Wing_length_cm follow the linear trend well.</p>
+<p>note: The boxplots for Site can be used to assess homoscedasticity in addition to the tests we saw above. The plots are centered around 0 and have a relatively similar variance (though Washoe’s variance appears larger, but the authors moved forward with their analysis so we will accept this), indicating homoscedasticity.</p>
+</section>
+<section id="check-4-normality" class="level4">
+<h4 class="anchored" data-anchor-id="check-4-normality">Check 4: Normality</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(R50_model<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="saadams_ReplicationCode_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(R50_model<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="saadams_ReplicationCode_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The histogram of the residuals follows a normal distribution. The points in the Q-Q plot appear to fall mostly on a linear trend line, which also indicates normality (though there is is some trail-off at the ends, but we will accept that and move forward since the authors did).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(R50_model<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  R50_model$residuals
+W = 0.99233, p-value = 0.4386</code></pre>
+</div>
+</div>
+<p>The results of this test are non-significant (p &gt; 0.05) so there is not evidence that this is a non-normal distribution.</p>
+</section>
+<section id="check-5-variance-inflation-factors-performed-by-authors" class="level4">
+<h4 class="anchored" data-anchor-id="check-5-variance-inflation-factors-performed-by-authors">Check 5: Variance inflation factors (performed by authors)</h4>
+<p>variance inflation factors were evaluated to ensure the independence of predictors</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(R50_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                   GVIF Df GVIF^(1/(2*Df))
+R50            1.057104  1        1.028155
+Wing_Length_cm 1.534978  1        1.238942
+Site           1.610345  3        1.082646</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(R50_model) <span class="sc">&gt;</span> <span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                GVIF    Df GVIF^(1/(2*Df))
+R50            FALSE FALSE           FALSE
+Wing_Length_cm FALSE FALSE           FALSE
+Site           FALSE FALSE           FALSE</code></pre>
+</div>
+</div>
+<p>None of the variance inflation factors are greater than 10, so the variables are independent (the variables are not indicated to have a problem with multicollinearity (R in Action p .235))</p>
+</section>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+LR50_model
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<section id="preview-the-model-1" class="level4">
+<h4 class="anchored" data-anchor-id="preview-the-model-1">Preview the model</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(LR50_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   (Intercept)           LR50 Wing_Length_cm     SiteSutter        SiteUNR 
+ -3.7636382805   0.0084822485   0.1498576313   0.0004009918   0.0345654242 
+    SiteWashoe 
+  0.0872313878 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(LR50_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Testes_Weight_mg ~ LR50 + Wing_Length_cm + Site, 
+    data = d_male)
+
+Residuals:
+      Min        1Q    Median        3Q       Max 
+-0.213961 -0.050553 -0.005303  0.052244  0.193847 
+
+Coefficients:
+                Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)    -3.763638   1.384089  -2.719  0.00719 ** 
+LR50            0.008482   0.003255   2.606  0.00993 ** 
+Wing_Length_cm  0.149858   0.048500   3.090  0.00232 ** 
+SiteSutter      0.000401   0.019521   0.021  0.98363    
+SiteUNR         0.034565   0.017091   2.022  0.04462 *  
+SiteWashoe      0.087231   0.016437   5.307 3.27e-07 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.08252 on 179 degrees of freedom
+Multiple R-squared:  0.2948,    Adjusted R-squared:  0.2751 
+F-statistic: 14.97 on 5 and 179 DF,  p-value: 2.867e-12</code></pre>
+</div>
+</div>
+</section>
+<section id="check-1-samples-are-independent-1" class="level4">
+<h4 class="anchored" data-anchor-id="check-1-samples-are-independent-1">Check 1: Samples are independent</h4>
+<p>There is no overlap between the samples because they were collected from different, isolated geographic sites. there is no reason to believe that the sample overlap.</p>
+</section>
+<section id="check-2-homoscedasticity-1" class="level4">
+<h4 class="anchored" data-anchor-id="check-2-homoscedasticity-1">Check 2: Homoscedasticity</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted</span>(LR50_model), <span class="fu">residuals</span>(LR50_model)) <span class="co"># module 15</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="saadams_ReplicationCode_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(LR50_model, <span class="at">which =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="saadams_ReplicationCode_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(LR50_model, <span class="dv">3</span>) <span class="co"># scale-location (also in book of R but went to different sources for code)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="saadams_ReplicationCode_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The first two plots (very similar) show that the residuals are scattered around 0 fairly randomly and that their spread around 0 appears pretty constant, indicating homoscedasticity. The horizontal line in the scale-location plot with equally and randomly spread out points also validates the assumption of homoscedasticity.</p>
+</section>
+<section id="check-3-linearity-between-co-variate-and-dependent-variable-1" class="level4">
+<h4 class="anchored" data-anchor-id="check-3-linearity-between-co-variate-and-dependent-variable-1">Check 3: Linearity between co-variate and dependent variable</h4>
+<p>We will use component-plus-residual plot analysis to confirm the linearity assumption is satisfied.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">crPlots</span>(LR50_model) <span class="co"># Book of R p. 233 </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="saadams_ReplicationCode_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The first two plots for R50 and Wing_length_cm follow the linear trend well.</p>
+<p>note: The boxplots for Site can be used to assess homoscedasticity in addition to the tests we saw above. The plots are centered around 0 and have a relatively similar variance (though Washoe’s variance appears larger, but the authors moved forward with their analysis so we will accept this), indicating homoscedasticity.</p>
+</section>
+<section id="check-4-normality-1" class="level4">
+<h4 class="anchored" data-anchor-id="check-4-normality-1">Check 4: Normality</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(LR50_model<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="saadams_ReplicationCode_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(LR50_model<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="saadams_ReplicationCode_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The histogram of the residuals follows a normal distribution. The points in the Q-Q plot appear to fall mostly on a linear trend line, which also indicates normality (though there is is some trail-off at the ends, but we will accept that and move forward since the authors did).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(LR50_model<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  LR50_model$residuals
+W = 0.99087, p-value = 0.2899</code></pre>
+</div>
+</div>
+<p>The results of this test are non-significant (p &gt; 0.05) so there is not evidence that this is a non-normal distribution.</p>
+</section>
+<section id="check-5-variance-inflation-factors-performed-by-authors-1" class="level4">
+<h4 class="anchored" data-anchor-id="check-5-variance-inflation-factors-performed-by-authors-1">Check 5: Variance inflation factors (performed by authors)</h4>
+<p>variance inflation factors were evaluated to ensure the independence of predictors</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(LR50_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                   GVIF Df GVIF^(1/(2*Df))
+LR50           1.021876  1        1.010879
+Wing_Length_cm 1.541954  1        1.241755
+Site           1.530154  3        1.073468</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(LR50_model) <span class="sc">&gt;</span> <span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                GVIF    Df GVIF^(1/(2*Df))
+LR50           FALSE FALSE           FALSE
+Wing_Length_cm FALSE FALSE           FALSE
+Site           FALSE FALSE           FALSE</code></pre>
+</div>
+</div>
+<p>None of the variance inflation factors are greater than 10, so the variables are independent (the variables are not indicated to have a problem with multicollinearity (R in Action p .235))</p>
+</section>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+BR50_model
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<section id="preview-the-model-2" class="level4">
+<h4 class="anchored" data-anchor-id="preview-the-model-2">Preview the model</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(BR50_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   (Intercept)           BR50 Wing_Length_cm     SiteSutter        SiteUNR 
+  -0.242147417    0.031134661    0.164847532   -0.002916226    0.034041177 
+    SiteWashoe 
+   0.084333182 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(BR50_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Testes_Weight_mg ~ BR50 + Wing_Length_cm + Site, 
+    data = d_male)
+
+Residuals:
+      Min        1Q    Median        3Q       Max 
+-0.218768 -0.056474 -0.004368  0.055513  0.218502 
+
+Coefficients:
+                Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)    -0.242147   0.129856  -1.865 0.063855 .  
+BR50            0.031135   0.022250   1.399 0.163454    
+Wing_Length_cm  0.164848   0.048971   3.366 0.000933 ***
+SiteSutter     -0.002916   0.019816  -0.147 0.883168    
+SiteUNR         0.034041   0.017323   1.965 0.050950 .  
+SiteWashoe      0.084333   0.016823   5.013 1.28e-06 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.08362 on 179 degrees of freedom
+Multiple R-squared:  0.276, Adjusted R-squared:  0.2558 
+F-statistic: 13.65 on 5 and 179 DF,  p-value: 2.758e-11</code></pre>
+</div>
+</div>
+</section>
+<section id="check-1-samples-are-independent-2" class="level4">
+<h4 class="anchored" data-anchor-id="check-1-samples-are-independent-2">Check 1: Samples are independent</h4>
+<p>There is no overlap between the samples because they were collected from different, isolated geographic sites. there is no reason to believe that the sample overlap.</p>
+</section>
+<section id="check-2-homoscedasticity-2" class="level4">
+<h4 class="anchored" data-anchor-id="check-2-homoscedasticity-2">Check 2: Homoscedasticity</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted</span>(BR50_model), <span class="fu">residuals</span>(BR50_model)) <span class="co"># module 15</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="saadams_ReplicationCode_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(BR50_model, <span class="at">which =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="saadams_ReplicationCode_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(BR50_model, <span class="dv">3</span>) <span class="co"># scale-location (also in book of R but went to different sources for code)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="saadams_ReplicationCode_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The first two plots (very similar) show that the residuals are scattered around 0 fairly randomly and that their spread around 0 appears pretty constant, indicating homoscedasticity. The horizontal line in the scale-location plot with equally and randomly spread out points also validates the assumption of homoscedasticity.</p>
+</section>
+<section id="check-3-linearity-between-co-variate-and-dependent-variable-2" class="level4">
+<h4 class="anchored" data-anchor-id="check-3-linearity-between-co-variate-and-dependent-variable-2">Check 3: Linearity between co-variate and dependent variable</h4>
+<p>We will use component-plus-residual plot analysis to confirm the linearity assumption is satisfied.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">crPlots</span>(BR50_model) <span class="co"># Book of R p. 233 </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="saadams_ReplicationCode_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The first two plots for R50 and Wing_length_cm follow the linear trend well.</p>
+<p>note: The boxplots for Site can be used to assess homoscedasticity in addition to the tests we saw above. The plots are centered around 0 and have a relatively similar variance (though Washoe’s variance appears larger, but the authors moved forward with their analysis so we will accept this), indicating homoscedasticity.</p>
+</section>
+<section id="check-4-normality-2" class="level4">
+<h4 class="anchored" data-anchor-id="check-4-normality-2">Check 4: Normality</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(BR50_model<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="saadams_ReplicationCode_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(BR50_model<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="saadams_ReplicationCode_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The histogram of the residuals follows a normal distribution. The points in the Q-Q plot appear to fall mostly on a linear trend line, which also indicates normality (though there is is some trail-off at the ends, but we will accept that and move forward since the authors did).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(BR50_model<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  BR50_model$residuals
+W = 0.99241, p-value = 0.4481</code></pre>
+</div>
+</div>
+<p>The results of this test are non-significant (p &gt; 0.05) so there is not evidence that this is a non-normal distribution.</p>
+</section>
+<section id="check-5-variance-inflation-factors-performed-by-authors-2" class="level4">
+<h4 class="anchored" data-anchor-id="check-5-variance-inflation-factors-performed-by-authors-2">Check 5: Variance inflation factors (performed by authors)</h4>
+<p>variance inflation factors were evaluated to ensure the independence of predictors</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(BR50_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                   GVIF Df GVIF^(1/(2*Df))
+BR50           1.027414  1        1.013614
+Wing_Length_cm 1.531104  1        1.237378
+Site           1.563082  3        1.077284</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(BR50_model) <span class="sc">&gt;</span> <span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                GVIF    Df GVIF^(1/(2*Df))
+BR50           FALSE FALSE           FALSE
+Wing_Length_cm FALSE FALSE           FALSE
+Site           FALSE FALSE           FALSE</code></pre>
+</div>
+</div>
+<p>None of the variance inflation factors are greater than 10, so the variables are independent (the variables are not indicated to have a problem with multicollinearity (R in Action p .235))</p>
+</section>
+</div>
+</div>
+</div>
+<p><strong>Now that we have checked our assumptions, let’s proceed…</strong></p>
+</section>
+<section id="ancova" class="level2">
+<h2 class="anchored" data-anchor-id="ancova">ANCOVA</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>R50_anova <span class="ot">&lt;-</span> <span class="fu">anova</span>(R50_model)</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>LR50_anova <span class="ot">&lt;-</span> <span class="fu">anova</span>(LR50_model)</span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>BR50_anova <span class="ot">&lt;-</span> <span class="fu">anova</span>(BR50_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="table-1" class="level2">
+<h2 class="anchored" data-anchor-id="table-1">Table 1</h2>
+<section id="table-prep" class="level3">
+<h3 class="anchored" data-anchor-id="table-prep">Table prep</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>R50_anova_t1 <span class="ot">&lt;-</span> R50_anova[<span class="fu">rownames</span>(R50_anova) <span class="sc">!=</span> <span class="st">"Residuals"</span>,]</span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>LR50_anova_t1 <span class="ot">&lt;-</span> LR50_anova[<span class="fu">rownames</span>(LR50_anova) <span class="sc">!=</span> <span class="st">"Residuals"</span>,]</span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>BR50_anova_t1 <span class="ot">&lt;-</span> BR50_anova[<span class="fu">rownames</span>(BR50_anova) <span class="sc">!=</span> <span class="st">"Residuals"</span>,]</span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a><span class="co">#  R50</span></span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>p_format_R50 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(R50_anova_t1<span class="sc">$</span><span class="st">`</span><span class="at">Pr(&gt;F)</span><span class="st">`</span> <span class="sc">&lt;</span> <span class="fl">0.001</span>, <span class="st">"&lt;0.001"</span>, <span class="fu">round</span>(R50_anova_t1<span class="sc">$</span><span class="st">`</span><span class="at">Pr(&gt;F)</span><span class="st">`</span>, <span class="dv">3</span>))</span>
+<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a>table1_R50 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb68-9"><a href="#cb68-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="fu">c</span>(<span class="st">"Color variable"</span>, <span class="st">"Wing length"</span>, <span class="st">"Site"</span>),</span>
+<span id="cb68-10"><a href="#cb68-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">f_R50 =</span> <span class="fu">paste0</span>(<span class="fu">round</span>(R50_anova_t1<span class="sc">$</span><span class="st">`</span><span class="at">F value</span><span class="st">`</span>, <span class="dv">2</span>), <span class="st">"("</span>, R50_anova_t1<span class="sc">$</span>Df, <span class="st">")"</span>),</span>
+<span id="cb68-11"><a href="#cb68-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">p_R50 =</span> p_format_R50</span>
+<span id="cb68-12"><a href="#cb68-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb68-13"><a href="#cb68-13" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(table1_R50) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"F-value(Df)"</span>, <span class="st">"P-value"</span>)</span>
+<span id="cb68-14"><a href="#cb68-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-15"><a href="#cb68-15" aria-hidden="true" tabindex="-1"></a><span class="co"># LR50</span></span>
+<span id="cb68-16"><a href="#cb68-16" aria-hidden="true" tabindex="-1"></a>p_format_LR50 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(LR50_anova_t1<span class="sc">$</span><span class="st">`</span><span class="at">Pr(&gt;F)</span><span class="st">`</span> <span class="sc">&lt;</span> <span class="fl">0.001</span>, <span class="st">"&lt;0.001"</span>, <span class="fu">round</span>(LR50_anova<span class="sc">$</span><span class="st">`</span><span class="at">Pr(&gt;F)</span><span class="st">`</span>, <span class="dv">3</span>))</span>
+<span id="cb68-17"><a href="#cb68-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-18"><a href="#cb68-18" aria-hidden="true" tabindex="-1"></a>table1_LR50 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb68-19"><a href="#cb68-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="fu">c</span>(<span class="st">"Color variable"</span>, <span class="st">"Wing length"</span>, <span class="st">"Site"</span>),</span>
+<span id="cb68-20"><a href="#cb68-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">f_LR50 =</span> <span class="fu">paste0</span>(<span class="fu">round</span>(LR50_anova_t1<span class="sc">$</span><span class="st">`</span><span class="at">F value</span><span class="st">`</span>, <span class="dv">1</span>), <span class="st">"("</span>, LR50_anova_t1<span class="sc">$</span>Df, <span class="st">")"</span>),</span>
+<span id="cb68-21"><a href="#cb68-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">p_LR50 =</span> p_format_LR50</span>
+<span id="cb68-22"><a href="#cb68-22" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb68-23"><a href="#cb68-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-24"><a href="#cb68-24" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(table1_LR50) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"F-value(Df)"</span>, <span class="st">"P-value"</span>)</span>
+<span id="cb68-25"><a href="#cb68-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-26"><a href="#cb68-26" aria-hidden="true" tabindex="-1"></a><span class="co"># BR50</span></span>
+<span id="cb68-27"><a href="#cb68-27" aria-hidden="true" tabindex="-1"></a>p_format_BR50 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(BR50_anova_t1<span class="sc">$</span><span class="st">`</span><span class="at">Pr(&gt;F)</span><span class="st">`</span> <span class="sc">&lt;</span> <span class="fl">0.001</span>, <span class="st">"&lt;0.001"</span>, <span class="fu">round</span>(BR50_anova_t1<span class="sc">$</span><span class="st">`</span><span class="at">Pr(&gt;F)</span><span class="st">`</span>, <span class="dv">2</span>))</span>
+<span id="cb68-28"><a href="#cb68-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-29"><a href="#cb68-29" aria-hidden="true" tabindex="-1"></a>table1_BR50 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb68-30"><a href="#cb68-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="fu">c</span>(<span class="st">"Color variable"</span>, <span class="st">"Wing length"</span>, <span class="st">"Site"</span>),</span>
+<span id="cb68-31"><a href="#cb68-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">F_BR50 =</span> <span class="fu">paste0</span>(<span class="fu">round</span>(BR50_anova_t1<span class="sc">$</span><span class="st">`</span><span class="at">F value</span><span class="st">`</span>, <span class="dv">2</span>), <span class="st">"("</span>, BR50_anova_t1<span class="sc">$</span>Df, <span class="st">")"</span>),</span>
+<span id="cb68-32"><a href="#cb68-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">p_BR50 =</span> p_format_BR50</span>
+<span id="cb68-33"><a href="#cb68-33" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb68-34"><a href="#cb68-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-35"><a href="#cb68-35" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(table1_BR50) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"F-value(Df)"</span>, <span class="st">"P-value"</span>)</span>
+<span id="cb68-36"><a href="#cb68-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-37"><a href="#cb68-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine into one table</span></span>
+<span id="cb68-38"><a href="#cb68-38" aria-hidden="true" tabindex="-1"></a>table1_rep <span class="ot">&lt;-</span><span class="fu">cbind</span>(table1_R50, table1_LR50, table1_BR50)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="define-f-stat-function" class="level3">
+<h3 class="anchored" data-anchor-id="define-f-stat-function">Define F-stat function</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fstat calc</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>f_stat_sum <span class="ot">&lt;-</span> <span class="cf">function</span>(anova) {</span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>  MS_factors <span class="ot">&lt;-</span> anova<span class="sc">$</span><span class="st">`</span><span class="at">Mean Sq</span><span class="st">`</span>[<span class="dv">1</span><span class="sc">:</span>(<span class="fu">nrow</span>(anova)<span class="sc">-</span><span class="dv">1</span>)]  <span class="co"># mean squares for factors</span></span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>  MS_residuals <span class="ot">&lt;-</span> anova<span class="sc">$</span><span class="st">`</span><span class="at">Mean Sq</span><span class="st">`</span>[<span class="fu">nrow</span>(anova)]  <span class="co"># mean square for residuals</span></span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a>  SS_factors <span class="ot">&lt;-</span> MS_factors <span class="sc">*</span> anova<span class="sc">$</span>Df[<span class="dv">1</span><span class="sc">:</span>(<span class="fu">nrow</span>(anova)<span class="sc">-</span><span class="dv">1</span>)]  <span class="co"># sum of squares (SS) = MS * Df for factors</span></span>
+<span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a>  SS_residuals <span class="ot">&lt;-</span> MS_residuals <span class="sc">*</span> anova<span class="sc">$</span>Df[<span class="fu">nrow</span>(anova)]  <span class="co"># sum of squares (SS) for residuals</span></span>
+<span id="cb69-8"><a href="#cb69-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb69-9"><a href="#cb69-9" aria-hidden="true" tabindex="-1"></a>  SST <span class="ot">&lt;-</span> <span class="fu">sum</span>(SS_factors) <span class="sc">+</span> SS_residuals</span>
+<span id="cb69-10"><a href="#cb69-10" aria-hidden="true" tabindex="-1"></a>  SSB <span class="ot">&lt;-</span> <span class="fu">sum</span>(SS_factors)</span>
+<span id="cb69-11"><a href="#cb69-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb69-12"><a href="#cb69-12" aria-hidden="true" tabindex="-1"></a>  df_between <span class="ot">&lt;-</span> <span class="fu">sum</span>(anova<span class="sc">$</span>Df[<span class="dv">1</span><span class="sc">:</span>(<span class="fu">length</span>(anova<span class="sc">$</span>Df)<span class="sc">-</span><span class="dv">1</span>)]) <span class="co"># Sum of dfs of all factors</span></span>
+<span id="cb69-13"><a href="#cb69-13" aria-hidden="true" tabindex="-1"></a>  df_within <span class="ot">&lt;-</span> anova<span class="sc">$</span>Df[<span class="fu">nrow</span>(anova)] <span class="co"># degrees of freedom within groups</span></span>
+<span id="cb69-14"><a href="#cb69-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb69-15"><a href="#cb69-15" aria-hidden="true" tabindex="-1"></a>  MSB <span class="ot">&lt;-</span> <span class="fu">sum</span>(SS_factors) <span class="sc">/</span> df_between <span class="co"># mean squares between groups</span></span>
+<span id="cb69-16"><a href="#cb69-16" aria-hidden="true" tabindex="-1"></a>  MSW <span class="ot">&lt;-</span> SS_residuals <span class="sc">/</span> df_within <span class="co"># mean squares within groups</span></span>
+<span id="cb69-17"><a href="#cb69-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb69-18"><a href="#cb69-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate R-squared: SSB / SST</span></span>
+<span id="cb69-19"><a href="#cb69-19" aria-hidden="true" tabindex="-1"></a>  R_squared <span class="ot">&lt;-</span> SSB <span class="sc">/</span> SST</span>
+<span id="cb69-20"><a href="#cb69-20" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb69-21"><a href="#cb69-21" aria-hidden="true" tabindex="-1"></a>  F_statistic <span class="ot">&lt;-</span> MSB <span class="sc">/</span> MSW</span>
+<span id="cb69-22"><a href="#cb69-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb69-23"><a href="#cb69-23" aria-hidden="true" tabindex="-1"></a>  p_value_overall <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pf</span>(F_statistic, df_between, df_within)</span>
+<span id="cb69-24"><a href="#cb69-24" aria-hidden="true" tabindex="-1"></a>  p_format_overall <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(p_value_overall <span class="sc">&lt;</span> <span class="fl">0.001</span>, <span class="st">"&lt;0.001"</span>, <span class="fu">round</span>(p_value_overall, <span class="dv">3</span>))</span>
+<span id="cb69-25"><a href="#cb69-25" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb69-26"><a href="#cb69-26" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb69-27"><a href="#cb69-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">R_squared =</span> <span class="fu">round</span>(R_squared, <span class="dv">2</span>),</span>
+<span id="cb69-28"><a href="#cb69-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">F_statistic =</span> <span class="fu">round</span>(F_statistic, <span class="dv">2</span>),</span>
+<span id="cb69-29"><a href="#cb69-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_value =</span> p_format_overall)</span>
+<span id="cb69-30"><a href="#cb69-30" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb69-31"><a href="#cb69-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(result)</span>
+<span id="cb69-32"><a href="#cb69-32" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="f-stat-calculation" class="level3">
+<h3 class="anchored" data-anchor-id="f-stat-calculation">F-Stat calculation</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate F-statistics for the different models (R50, LR50, BR50)</span></span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>sum_R50 <span class="ot">&lt;-</span> <span class="fu">f_stat_sum</span>(R50_anova)</span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a>sum_LR50 <span class="ot">&lt;-</span> <span class="fu">f_stat_sum</span>(LR50_anova)</span>
+<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-6"><a href="#cb70-6" aria-hidden="true" tabindex="-1"></a>sum_BR50 <span class="ot">&lt;-</span> <span class="fu">f_stat_sum</span>(BR50_anova)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="format-the-final-table-1-to-hold-these-results" class="level3">
+<h3 class="anchored" data-anchor-id="format-the-final-table-1-to-hold-these-results">Format the final Table 1 to hold these results</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add a summary row for each model, degrees of freedom = 5,179 (R/L/BR50: 1 DF, Wing Length: 1 DF, Sites: 4-1 = 3 DF --&gt; 1 + 1 + 3 = 5 DF (lower) &amp; 185 (total individuals) - 1 - (1 + 1 + 3) = 179 DF (upper))</span></span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>table_sum <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="fu">c</span>(<span class="st">""</span>),</span>
+<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">F_R50 =</span> <span class="fu">paste0</span>(<span class="st">"F(5,179)"</span>, <span class="st">" = "</span> , sum_R50<span class="sc">$</span>F_statistic, <span class="st">"; "</span>, <span class="st">"R-squared = "</span>, sum_R50<span class="sc">$</span>R_squared, <span class="st">"; "</span>, <span class="st">"P "</span>, sum_R50<span class="sc">$</span>p_value),</span>
+<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">P_R50 =</span> <span class="st">""</span>,</span>
+<span id="cb71-6"><a href="#cb71-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">F_LR50 =</span> <span class="fu">paste0</span>(<span class="st">"F(5,179)"</span>, <span class="st">" = "</span> ,sum_LR50<span class="sc">$</span>F_statistic, <span class="st">"; "</span>, <span class="st">"R-squared = "</span>, sum_LR50<span class="sc">$</span>R_squared, <span class="st">"; "</span>, <span class="st">"P "</span>, sum_LR50<span class="sc">$</span>p_value),</span>
+<span id="cb71-7"><a href="#cb71-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">P_LR50 =</span> <span class="st">""</span>,</span>
+<span id="cb71-8"><a href="#cb71-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">F_BR50 =</span> <span class="fu">paste0</span>(<span class="st">"F(5,179)"</span>, <span class="st">" = "</span> , sum_BR50<span class="sc">$</span>F_statistic, <span class="st">"; "</span>, <span class="st">"R-squared = "</span>, sum_BR50<span class="sc">$</span>R_squared, <span class="st">"; "</span>, <span class="st">"P "</span>, sum_BR50<span class="sc">$</span>p_value),</span>
+<span id="cb71-9"><a href="#cb71-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">P_BR50 =</span> <span class="st">""</span></span>
+<span id="cb71-10"><a href="#cb71-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb71-11"><a href="#cb71-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-12"><a href="#cb71-12" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(table_sum) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"F-value(Df)"</span>, <span class="st">"P-value"</span>,<span class="st">"F-value(Df)"</span>, <span class="st">"P-value"</span>, <span class="st">"F-value(Df)"</span>, <span class="st">"P-value"</span>) <span class="co"># column names (for the three headers)</span></span>
+<span id="cb71-13"><a href="#cb71-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-14"><a href="#cb71-14" aria-hidden="true" tabindex="-1"></a>table1_rep <span class="ot">&lt;-</span> <span class="fu">rbind</span>(table1_rep, table_sum) <span class="co"># bind summary row to rest of table</span></span>
+<span id="cb71-15"><a href="#cb71-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-16"><a href="#cb71-16" aria-hidden="true" tabindex="-1"></a>table1_rep <span class="co"># print table so far</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                                F-value(Df) P-value
+Color variable                                      7.64(1)   0.006
+Wing length                                        36.56(1)  &lt;0.001
+Site                                                8.81(3)  &lt;0.001
+               F(5,179) = 14.13; R-squared = 0.28; P &lt;0.001        
+                                                F-value(Df) P-value
+Color variable                                      12.6(1)  &lt;0.001
+Wing length                                         30.1(1)  &lt;0.001
+Site                                                10.7(3)  &lt;0.001
+               F(5,179) = 14.97; R-squared = 0.29; P &lt;0.001        
+                                                F-value(Df) P-value
+Color variable                                      2.86(1)    0.09
+Wing length                                        35.76(1)  &lt;0.001
+Site                                                9.87(3)  &lt;0.001
+               F(5,179) = 13.65; R-squared = 0.28; P &lt;0.001        </code></pre>
+</div>
+</div>
+<p>Let’s format the table to look a little nicer…</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>Table1 <span class="ot">&lt;-</span> <span class="fu">kbl</span>(table1_rep) <span class="sc">%&gt;%</span></span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_header_above</span>(<span class="fu">c</span>(<span class="st">" "</span> <span class="ot">=</span> <span class="dv">1</span>, <span class="st">"Testes by R50 Model"</span> <span class="ot">=</span> <span class="dv">2</span>, <span class="st">"Testes by LR50 Model"</span> <span class="ot">=</span> <span class="dv">2</span>, <span class="st">"Testes by BR50 Model"</span> <span class="ot">=</span> <span class="dv">2</span>)) <span class="co"># add blank header to match paper table (top left) + rest of header names</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="original-table-1" class="level2">
+<h2 class="anchored" data-anchor-id="original-table-1">Original Table 1</h2>
+<p><img src="img/Table1_original.png" class="img-fluid"></p>
+</section>
+<section id="replicated-table-1" class="level2">
+<h2 class="anchored" data-anchor-id="replicated-table-1">Replicated Table 1</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>Table1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: left; empty-cells: hide; border-bottom: hidden;"></th>
+<th colspan="2" data-quarto-table-cell-role="th" style="text-align: center; border-bottom: hidden; padding-bottom: 0; padding-left: 3px; padding-right: 3px;"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Testes by R50 Model
+</div></th>
+<th colspan="2" data-quarto-table-cell-role="th" style="text-align: center; border-bottom: hidden; padding-bottom: 0; padding-left: 3px; padding-right: 3px;"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Testes by LR50 Model
+</div></th>
+<th colspan="2" data-quarto-table-cell-role="th" style="text-align: center; border-bottom: hidden; padding-bottom: 0; padding-left: 3px; padding-right: 3px;"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Testes by BR50 Model
+</div></th>
+</tr>
+<tr class="odd">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">F-value(Df)</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">P-value</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">F-value(Df)</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">P-value</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">F-value(Df)</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">P-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Color variable</td>
+<td style="text-align: left;">7.64(1)</td>
+<td style="text-align: left;">0.006</td>
+<td style="text-align: left;">12.6(1)</td>
+<td style="text-align: left;">&lt;0.001</td>
+<td style="text-align: left;">2.86(1)</td>
+<td style="text-align: left;">0.09</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Wing length</td>
+<td style="text-align: left;">36.56(1)</td>
+<td style="text-align: left;">&lt;0.001</td>
+<td style="text-align: left;">30.1(1)</td>
+<td style="text-align: left;">&lt;0.001</td>
+<td style="text-align: left;">35.76(1)</td>
+<td style="text-align: left;">&lt;0.001</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Site</td>
+<td style="text-align: left;">8.81(3)</td>
+<td style="text-align: left;">&lt;0.001</td>
+<td style="text-align: left;">10.7(3)</td>
+<td style="text-align: left;">&lt;0.001</td>
+<td style="text-align: left;">9.87(3)</td>
+<td style="text-align: left;">&lt;0.001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">F(5,179) = 14.13; R-squared = 0.28; P &lt;0.001</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">F(5,179) = 14.97; R-squared = 0.29; P &lt;0.001</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">F(5,179) = 13.65; R-squared = 0.28; P &lt;0.001</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p><strong>note #1: it is very complicated to add subscripts to the table, so I put the degrees of freedom in parentheses</strong></p>
+<p><strong>note #2: this is not the figure I primarily focused on replicating so the formatting won’t be a perfect match</strong></p>
+<p>The results of the original and replicated analyses are the same! Both versions show that including site and wing length improved the explanatory power of all the models than had just the color variables alone been included.</p>
+<hr>
+</section>
+</section>
+<section id="inferential-statistical-test-ii" class="level1">
+<h1>INFERENTIAL STATISTICAL TEST II —</h1>
+<section id="figure-3a---post-hoc-comparisons-with-tukeys-hsd-test" class="level4">
+<h4 class="anchored" data-anchor-id="figure-3a---post-hoc-comparisons-with-tukeys-hsd-test">Figure 3a - post hoc comparisons with Tukey’s HSD test</h4>
+<p>We’re going to Figure 3a to summarize within and among population variation (among the 4 sites) in testes weight (mg). First we’ll run an ANOVA and then perform post hoc Tukey honest significant difference (HSD) tests to determine if there are differences between the sites.</p>
+</section>
+<section id="import-data-again" class="level2">
+<h2 class="anchored" data-anchor-id="import-data-again">Import data again</h2>
+<p>Only Site and Testes Weight columns will be included</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>f_male <span class="ot">&lt;-</span> <span class="fu">curl</span>(<span class="st">"https://raw.githubusercontent.com/sadams32/saadams-AN588-Replication/refs/heads/main/Espeset2021_AnEntSoc_1.csv"</span>) <span class="co"># male butterfly data (R50, LR50, BR50, testes weight (mg))</span></span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>d_male_3a <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(f_male, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">","</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>) <span class="co"># read in data</span></span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>d_male_3a <span class="ot">&lt;-</span> d_male_3a <span class="sc">%&gt;%</span></span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Site, TestesWeight) <span class="co"># excludes R50, LR50, BR50, and Wing Length columns</span></span>
+<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(d_male_3a) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Site"</span>, <span class="st">"Testes_Weight_mg"</span>) <span class="co"># rename column names</span></span>
+<span id="cb75-8"><a href="#cb75-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-9"><a href="#cb75-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-10"><a href="#cb75-10" aria-hidden="true" tabindex="-1"></a>d_male_3a <span class="ot">&lt;-</span> d_male_3a <span class="sc">%&gt;%</span></span>
+<span id="cb75-11"><a href="#cb75-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Site =</span> <span class="fu">as.character</span>(Site), </span>
+<span id="cb75-12"><a href="#cb75-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">Site =</span> <span class="fu">ifelse</span>(Site <span class="sc">==</span> <span class="st">"UNR"</span>, <span class="st">"Reno"</span>, Site)) <span class="sc">%&gt;%</span></span>
+<span id="cb75-13"><a href="#cb75-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Site =</span> <span class="fu">as.factor</span>(Site)) <span class="co"># rename UNR to Reno (so replicated figure matches paper's figure)</span></span>
+<span id="cb75-14"><a href="#cb75-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-15"><a href="#cb75-15" aria-hidden="true" tabindex="-1"></a>d_male_3a<span class="sc">$</span>Site <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(d_male_3a<span class="sc">$</span>Site) <span class="co"># make sure vector converted to factor</span></span>
+<span id="cb75-16"><a href="#cb75-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-17"><a href="#cb75-17" aria-hidden="true" tabindex="-1"></a>d_male_3a <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(d_male_3a) <span class="co"># omit "NA" entries</span></span>
+<span id="cb75-18"><a href="#cb75-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-19"><a href="#cb75-19" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(d_male_3a) <span class="co"># preview</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Site Testes_Weight_mg
+1 Davis            0.244
+2 Davis            0.146
+3 Davis            0.314
+4 Davis            0.152
+5 Davis            0.081
+6 Davis            0.087</code></pre>
+</div>
+</div>
+</section>
+<section id="defining-the-model" class="level2">
+<h2 class="anchored" data-anchor-id="defining-the-model">Defining the Model</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>model_3a <span class="ot">&lt;-</span> <span class="fu">lm</span>(Testes_Weight_mg <span class="sc">~</span> Site, <span class="at">data =</span> d_male_3a) <span class="co"># testes weight related to site</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="anova-assumption-check" class="level2">
+<h2 class="anchored" data-anchor-id="anova-assumption-check">ANOVA Assumption Check</h2>
+<p>The authors state that for all models they checked the distribution of residuals for normality as well as the variance inflation factors “to ensure the independence of predictors.” We will do the same check here, as well as others (ex. homoscedasticity) for completeness.</p>
+<section id="preview-the-model-3" class="level3">
+<h3 class="anchored" data-anchor-id="preview-the-model-3">Preview the model</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(model_3a) <span class="co"># coefficients</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)    SiteReno  SiteSutter  SiteWashoe 
+ 0.21677966  0.04636069 -0.02483966  0.09596637 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_3a) <span class="co"># summary</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Testes_Weight_mg ~ Site, data = d_male_3a)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.20614 -0.05775 -0.00378  0.05622  0.24325 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  0.21678    0.01162  18.651  &lt; 2e-16 ***
+SiteReno     0.04636    0.01658   2.796  0.00562 ** 
+SiteSutter  -0.02484    0.01716  -1.447  0.14917    
+SiteWashoe   0.09597    0.01617   5.933 1.11e-08 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.08928 on 225 degrees of freedom
+Multiple R-squared:  0.2151,    Adjusted R-squared:  0.2046 
+F-statistic: 20.55 on 3 and 225 DF,  p-value: 8.325e-12</code></pre>
+</div>
+</div>
+</section>
+<section id="check-1-samples-are-independent-3" class="level3">
+<h3 class="anchored" data-anchor-id="check-1-samples-are-independent-3">Check 1: Samples are independent</h3>
+<p>There is no overlap between the samples because they were collected from different, isolated geographic sites. There is no reason to believe that the samples overlap.</p>
+</section>
+<section id="check-2-homoscedasticity-3" class="level3">
+<h3 class="anchored" data-anchor-id="check-2-homoscedasticity-3">Check 2: Homoscedasticity</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>sds_3a <span class="ot">&lt;-</span> <span class="fu">summarize</span>(<span class="fu">group_by</span>(d_male_3a, Site), <span class="fu">sd</span>(Testes_Weight_mg)) <span class="co"># calculate standard deviations of testes weight goruped by site</span></span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(sds_3a<span class="sc">$</span><span class="st">`</span><span class="at">sd(Testes_Weight_mg)</span><span class="st">`</span>)<span class="sc">/</span><span class="fu">min</span>(sds_3a<span class="sc">$</span><span class="st">`</span><span class="at">sd(Testes_Weight_mg)</span><span class="st">`</span>) <span class="co"># ratio of max/min</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.432332</code></pre>
+</div>
+</div>
+<p>The variances appear to be relatively equal because the ratio of max/min is less than 2. This indicates that the assumption of homoscedasticity is met.</p>
+</section>
+<section id="check-3-normality" class="level3">
+<h3 class="anchored" data-anchor-id="check-3-normality">Check 3: Normality</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(model_3a<span class="sc">$</span>residuals) <span class="co"># histogram of residuals</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="saadams_ReplicationCode_files/figure-html/unnamed-chunk-45-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(model_3a<span class="sc">$</span>residuals) <span class="co"># Q-Q plot of residuals</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="saadams_ReplicationCode_files/figure-html/unnamed-chunk-46-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The histogram of the residuals follows a pretty normal distribution. The points in the Q-Q plot appear to fall mostly on a linear trend line, which also indicates normality (though there is is some trail-off at the ends, but we will accept that and move forward since the authors did).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="fu">shapiro.test</span>(model_3a<span class="sc">$</span>residuals) <span class="co"># Shapiro Test for residuals</span></span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>s</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  model_3a$residuals
+W = 0.99019, p-value = 0.1236</code></pre>
+</div>
+</div>
+<p>The results of this test are non-significant (p &gt; 0.05) so there is not evidence that this is a non-normal distribution.</p>
+</section>
+</section>
+<section id="anova-and-tukeys-hsd" class="level2">
+<h2 class="anchored" data-anchor-id="anova-and-tukeys-hsd">ANOVA and Tukey’s HSD</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ANOVA</span></span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a>anova_3a <span class="ot">&lt;-</span> <span class="fu">aov</span>(Testes_Weight_mg <span class="sc">~</span> Site, <span class="at">data =</span> d_male_3a) <span class="co"># testes weight as function of explanatory variable (site)</span></span>
+<span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb88-4"><a href="#cb88-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Tukey pair-wise comparisons </span></span>
+<span id="cb88-5"><a href="#cb88-5" aria-hidden="true" tabindex="-1"></a>tukey_3a <span class="ot">&lt;-</span> <span class="fu">TukeyHSD</span>(anova_3a, <span class="st">"Site"</span>, <span class="at">conf.level =</span> <span class="fl">0.95</span>) <span class="co"># </span></span>
+<span id="cb88-6"><a href="#cb88-6" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(tukey_3a) <span class="co"># preview significance results (will assign letters manually)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Tukey multiple comparisons of means
+    95% family-wise confidence level
+
+Fit: aov(formula = Testes_Weight_mg ~ Site, data = d_male_3a)
+
+$Site
+                     diff          lwr         upr     p adj
+Reno-Davis     0.04636069  0.003443272  0.08927811 0.0285496
+Sutter-Davis  -0.02483966 -0.069258813  0.01957949 0.4712106
+Washoe-Davis   0.09596637  0.054101317  0.13783142 0.0000001
+Sutter-Reno   -0.07120035 -0.115975545 -0.02642516 0.0003142
+Washoe-Reno    0.04960568  0.007363052  0.09184831 0.0140110
+Washoe-Sutter  0.12080603  0.077038509  0.16457355 0.0000000</code></pre>
+</div>
+</div>
+<p>Based on these results, Sutter and Davis are the only sites that are not statistically different (p &gt; 0.05) and so will be assigned the same letter in Figure 3a.</p>
+</section>
+<section id="plot-prep" class="level2">
+<h2 class="anchored" data-anchor-id="plot-prep">Plot Prep</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Based on Tukey results (above), manually assign letter comparisons</span></span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a>letter_manual <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Davis"</span> <span class="ot">=</span> <span class="st">"a"</span>, <span class="st">"Sutter"</span> <span class="ot">=</span> <span class="st">"a"</span>, <span class="st">"Washoe"</span> <span class="ot">=</span> <span class="st">"b"</span>, <span class="st">"Reno"</span> <span class="ot">=</span> <span class="st">"c"</span>) </span>
+<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-4"><a href="#cb90-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Make table with information that will be used for creating plot (including order changes of sites to match figure in paper)</span></span>
+<span id="cb90-5"><a href="#cb90-5" aria-hidden="true" tabindex="-1"></a>table_3a <span class="ot">&lt;-</span> d_male_3a <span class="sc">%&gt;%</span></span>
+<span id="cb90-6"><a href="#cb90-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Site) <span class="sc">%&gt;%</span></span>
+<span id="cb90-7"><a href="#cb90-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb90-8"><a href="#cb90-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean =</span> <span class="fu">mean</span>(Testes_Weight_mg),</span>
+<span id="cb90-9"><a href="#cb90-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd =</span> <span class="fu">sd</span>(Testes_Weight_mg),</span>
+<span id="cb90-10"><a href="#cb90-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb90-11"><a href="#cb90-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">se =</span> sd <span class="sc">/</span> <span class="fu">sqrt</span>(n),</span>
+<span id="cb90-12"><a href="#cb90-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">lower =</span> mean <span class="sc">-</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="at">df =</span> n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> se,</span>
+<span id="cb90-13"><a href="#cb90-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">upper =</span> mean <span class="sc">+</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="at">df =</span> n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> se) <span class="sc">%&gt;%</span></span>
+<span id="cb90-14"><a href="#cb90-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">letters =</span> letter_manual[<span class="fu">as.character</span>(Site)]) <span class="co"># apply manual letter labels</span></span>
+<span id="cb90-15"><a href="#cb90-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-16"><a href="#cb90-16" aria-hidden="true" tabindex="-1"></a>site_order <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Davis"</span>, <span class="st">"Sutter"</span>, <span class="st">"Washoe"</span>, <span class="st">"Reno"</span>) <span class="co"># reorder labels based on text</span></span>
+<span id="cb90-17"><a href="#cb90-17" aria-hidden="true" tabindex="-1"></a>table_3a<span class="sc">$</span>Site <span class="ot">&lt;-</span> <span class="fu">factor</span>(table_3a<span class="sc">$</span>Site, <span class="at">levels =</span> site_order) <span class="co"># define factor levels for table</span></span>
+<span id="cb90-18"><a href="#cb90-18" aria-hidden="true" tabindex="-1"></a>d_male_3a<span class="sc">$</span>Site <span class="ot">&lt;-</span> <span class="fu">factor</span>(d_male_3a<span class="sc">$</span>Site, <span class="at">levels =</span> site_order) <span class="co"># define factor levels for dataset</span></span>
+<span id="cb90-19"><a href="#cb90-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-20"><a href="#cb90-20" aria-hidden="true" tabindex="-1"></a>site_colors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Davis"</span> <span class="ot">=</span> <span class="st">"darkolivegreen3"</span>, <span class="st">"Sutter"</span> <span class="ot">=</span> <span class="st">"seagreen4"</span>, <span class="st">"Washoe"</span> <span class="ot">=</span> <span class="st">"skyblue2"</span>, <span class="st">"Reno"</span> <span class="ot">=</span> <span class="st">"royalblue3"</span>) <span class="co"># assign colors by site to match paper</span></span>
+<span id="cb90-21"><a href="#cb90-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-22"><a href="#cb90-22" aria-hidden="true" tabindex="-1"></a>site_shapes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Davis"</span> <span class="ot">=</span> <span class="dv">15</span>, <span class="st">"Sutter"</span> <span class="ot">=</span> <span class="dv">15</span>, <span class="st">"Washoe"</span> <span class="ot">=</span> <span class="dv">16</span>, <span class="st">"Reno"</span> <span class="ot">=</span> <span class="dv">16</span>) <span class="co"># assign shapes by site to match paper (15 = square, 16 = circle)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="plot" class="level2">
+<h2 class="anchored" data-anchor-id="plot">Plot</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>Figure_3a <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">data =</span> d_male_3a, </span>
+<span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(Site, Testes_Weight_mg, <span class="at">color =</span> Site, <span class="at">shape =</span> Site), </span>
+<span id="cb91-4"><a href="#cb91-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span> </span>
+<span id="cb91-5"><a href="#cb91-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="at">data =</span> table_3a, </span>
+<span id="cb91-6"><a href="#cb91-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="at">x =</span> Site, <span class="at">ymin =</span> lower, <span class="at">ymax =</span> upper), </span>
+<span id="cb91-7"><a href="#cb91-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">width =</span> <span class="fl">0.2</span>,</span>
+<span id="cb91-8"><a href="#cb91-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb91-9"><a href="#cb91-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> table_3a, </span>
+<span id="cb91-10"><a href="#cb91-10" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="at">x =</span> Site, <span class="at">y =</span> <span class="fl">0.6</span>, <span class="at">label =</span> letters), </span>
+<span id="cb91-11"><a href="#cb91-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">size =</span> <span class="dv">4</span>, <span class="at">vjust =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb91-12"><a href="#cb91-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> table_3a, </span>
+<span id="cb91-13"><a href="#cb91-13" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="at">x =</span> Site, <span class="at">y =</span> mean)) <span class="sc">+</span></span>
+<span id="cb91-14"><a href="#cb91-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">4.5</span>, <span class="at">y =</span> <span class="fl">0.65</span>, <span class="at">label =</span> <span class="st">"A"</span>, <span class="at">size =</span> <span class="fl">4.5</span>) <span class="sc">+</span></span>
+<span id="cb91-15"><a href="#cb91-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Testes Weight by Site"</span>, <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"Testes Weight (mg)"</span>) <span class="sc">+</span> </span>
+<span id="cb91-16"><a href="#cb91-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> site_colors) <span class="sc">+</span></span>
+<span id="cb91-17"><a href="#cb91-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> site_shapes) <span class="sc">+</span></span>
+<span id="cb91-18"><a href="#cb91-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="fl">0.6</span>, <span class="at">by =</span> <span class="fl">0.1</span>), <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.65</span>)) <span class="sc">+</span></span>
+<span id="cb91-19"><a href="#cb91-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb91-20"><a href="#cb91-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>,</span>
+<span id="cb91-21"><a href="#cb91-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb91-22"><a href="#cb91-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb91-23"><a href="#cb91-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">"black"</span>),</span>
+<span id="cb91-24"><a href="#cb91-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">11</span>),</span>
+<span id="cb91-25"><a href="#cb91-25" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">12</span>))</span>
+<span id="cb91-26"><a href="#cb91-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-27"><a href="#cb91-27" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"Figure_3a_rep.png"</span>, <span class="at">plot =</span> Figure_3a, <span class="at">width =</span> <span class="fl">5.5</span>, <span class="at">height =</span> <span class="dv">3</span>, <span class="at">path =</span> <span class="st">"/Users/sylvieadams/RWork/BI588/saadams-AN588-Replication/img"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="original-figure-3a" class="level2">
+<h2 class="anchored" data-anchor-id="original-figure-3a">Original Figure 3A</h2>
+<p><img src="img/Figure_3a_original.png" class="img-fluid"></p>
+</section>
+<section id="replicated-figure-3a" class="level2">
+<h2 class="anchored" data-anchor-id="replicated-figure-3a">Replicated Figure 3a</h2>
+<p><img src="img/Figure_3a_rep.png" class="img-fluid"> The replicated and original figures both show the same results: testes weight in the sites Davis and Sutter was the smallest and not statistically different between the sites, testes weight was then significantly larger in Reno, and testes weight was the largest in Washoe (statistically significant).</p>
+<hr>
+</section>
+</section>
+<section id="references" class="level1">
+<h1>References —</h1>
+<p>https://www.youtube.com/watch?v=Pc1RVwEIT5k</p>
+<p>https://www.sthda.com/english/wiki/ggplot2-point-shapes</p>
+<p>https://www.rdocumentation.org/packages/ggplot2/versions/0.9.0/topics/ggsave</p>
+<p>https://nostarch.com/bookofr</p>
+<p>https://www.manning.com/books/r-in-action</p>
+<p>https://godatadrive.com/blog/basic-guide-to-test-assumptions-of-linear-regression-in-r</p>
+<p>https://library.virginia.edu/data/articles/diagnostic-plots</p>
+<p>https://bioone-org.ezproxy.bu.edu/journals/annals-of-the-entomological-society-of-america/volume-115/issue-2/saab042/In%20Search%20of%20an%20Honest%20Butterfly:%20Sexually%20Selected%20Wing%20Coloration%20and%20Reproductive%20Traits%20From%20Wild%20Populations%20of%20the%20Cabbage%20White%20Butterfly/10.1093/aesa/saab042.full</p>
+<p>https://cropscience.bayer.co.uk/agronomy-id/pest-and-slugs/large-cabbage-white</p>
+<p>https://wisconsinbutterflies.org/a/species/36/full/cabbage-white.jpg</p>
+<p>https://www.delawarenaturesociety.org/wp-content/uploads/2023/04/Cabbage-White-edited.jpg</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
